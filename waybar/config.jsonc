@@ -70,7 +70,8 @@
     "pulseaudio": {
         "format": "[VOL: {volume}%]",
         "format-muted": "[VOL: MUTED]",
-        "on-click": "pavucontrol",
+        "on-click": "~/.scripts/toggle_volume.sh",
+        "on-click-right": "pavucontrol",
         "tooltip": false
     },
 

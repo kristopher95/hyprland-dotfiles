@@ -7,6 +7,18 @@
 (defpoll full_date :interval "60s"
   "date '+%B %-d, %Y'")
 
+(defpoll volume :interval "1s"
+  "pamixer --get-volume")
+
+(defpoll muted :interval "1s"
+  "pamixer --get-mute")
+
+(defpoll audio_outputs :interval "2s"
+  "~/.config/eww/scripts/audio_outputs.sh")
+
+(defpoll audio_inputs :interval "2s"
+  "~/.config/eww/scripts/audio_inputs.sh")
+
 (defwidget fancy_calendar []
   (box :class "calendar-panel"
        :orientation "vertical"
@@ -29,6 +41,64 @@
   )
 )
 
+(defwidget volume_popup []
+  (box :class "volume-panel"
+       :orientation "vertical"
+       :space-evenly false
+       :spacing 14
+
+    (box :class "volume-header"
+         :orientation "horizontal"
+         :space-evenly false
+         :spacing 12
+
+      (button :class "volume-mute-button"
+              :onclick "pamixer --toggle-mute"
+        (label :text {muted == "true" ? "󰖁" : "󰕾"}))
+
+      (label :class "volume-title"
+             :text "Volume")
+
+      (label :class "volume-percent"
+             :text "${volume}%")
+    )
+
+    (scale :class "volume-slider"
+           :min 0
+           :max 100
+           :value volume
+           :onchange "pamixer --set-volume {}")
+
+    (box :class "audio-section"
+         :orientation "vertical"
+         :space-evenly false
+         :spacing 6
+      (label :class "audio-section-title"
+             :text "OUTPUTS")
+      (box :class "audio-device-list"
+           :orientation "vertical"
+           :space-evenly false
+        (literal :content audio_outputs))
+    )
+
+    (box :class "audio-section"
+         :orientation "vertical"
+         :space-evenly false
+         :spacing 6
+      (label :class "audio-section-title"
+             :text "INPUTS")
+      (box :class "audio-device-list"
+           :orientation "vertical"
+           :space-evenly false
+        (literal :content audio_inputs))
+    )
+
+      (button :class "open-mixer-button"
+            :onclick "pavucontrol >/dev/null 2>&1 & eww close volume_popup; eww close backdrop0; eww close backdrop1"
+      (label :text "Open Full Mixer"))
+  )
+)
+
 (defwindow fancy_calendar
   :geometry (geometry
     :x "0px"
@@ -41,9 +111,21 @@
   :focusable false
   (fancy_calendar))
 
-  (defwidget calendar_backdrop []
+(defwindow volume_popup
+  :geometry (geometry
+    :x "18px"
+    :y "42px"
+    :width "380px"
+    :height "330px"
+    :anchor "top right")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  (volume_popup))
+
+(defwidget calendar_backdrop []
   (eventbox :class "calendar-backdrop"
-            :onclick "eww close fancy_calendar && eww close backdrop0 && eww close backdrop1"
+    :onclick "eww close fancy_calendar; eww close volume_popup; eww close backdrop0; eww close backdrop1"
     (box)))
 
 (defwindow calendar_backdrop
