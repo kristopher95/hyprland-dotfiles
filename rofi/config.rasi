@@ -1,0 +1,140 @@
+configuration {
+    modi: "drun,window,run";
+    show-icons: true;
+    display-drun: "Apps";
+    display-window: "Windows";
+    display-run: "Run";
+    drun-display-format: "{icon}  {name}";
+    hover-select: false;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+    icon-theme: "Papirus-Dark";
+}
+
+* {
+    bg:               #1a1b26;
+    bg-alt:           #24283b;
+    fg:               #c0caf5;
+    fg-alt:           #a9b1d6;
+    border:           #414868;
+    selected:         #7aa2f7;
+    selected-fg:      #1a1b26;
+    urgent:           #f7768e;
+    active:           #9ece6a;
+
+    font: "JetBrainsMono Nerd Font 16";
+
+    background-color: transparent;
+    text-color: @fg;
+}
+
+window {
+    location: center;
+    anchor: center;
+    fullscreen: false;
+    width: 38%;
+    x-offset: 0px;
+    y-offset: 0px;
+
+    background-color: @bg;
+    border: 2px;
+    border-color: @border;
+    border-radius: 0px;
+    padding: 18px;
+}
+
+mainbox {
+    background-color: @bg;
+    spacing: 12px;
+    children: [ "inputbar", "message", "listview" ];
+}
+
+inputbar {
+    background-color: @bg-alt;
+    text-color: @fg;
+    border-color: @border;
+    border: 1px;
+    border-radius: 0px;
+    padding: 10px 12px;
+    spacing: 10px;
+    children: [ "prompt", "entry" ];
+}
+
+prompt {
+    background-color: transparent;
+    text-color: @selected;
+    font: "JetBrainsMono Nerd Font 16";
+}
+
+entry {
+    background-color: transparent;
+    text-color: @fg;
+    placeholder: "Search applications...";
+    placeholder-color: @fg-alt;
+}
+
+message {
+    background-color: transparent;
+}
+
+listview {
+    columns: 1;
+    lines: 10;
+    spacing: 6px;
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    layout: vertical;
+    background-color: transparent;
+}
+
+element {
+    background-color: transparent;
+    text-color: @fg;
+    orientation: horizontal;
+    border: 0px;
+    border-radius: 0px;
+    padding: 10px 12px;
+    spacing: 12px;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element selected.normal {
+    background-color: @selected;
+    text-color: @selected-fg;
+}
+
+element selected.active {
+    background-color: @active;
+    text-color: #1a1b26;
+}
+
+element selected.urgent {
+    background-color: @urgent;
+    text-color: #1a1b26;
+}
+
+element-icon {
+    background-color: transparent;
+    size: 24px;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    vertical-align: 0.5;
+}
+
+textbox {
+    background-color: transparent;
+    text-color: @fg;
+}

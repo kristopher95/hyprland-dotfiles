@@ -1,0 +1,91 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 0,
+
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+
+    "modules-center": [
+        "clock"
+    ],
+
+    "modules-right": [
+        "custom/ram",
+        "custom/cpu",
+        "custom/gpu",
+        "pulseaudio",
+        "network",
+        "wlr/taskbar"
+    ],
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}",
+        "persistent-workspaces": {
+            "*": [1, 2, 3, 4, 5]
+}
+},
+
+    "clock": {
+        "format": "{:%a %b %d  %I:%M %p}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
+    "custom/ram": {
+        "exec": "~/.config/waybar/scripts/ram.sh",
+        "interval": 2,
+        "tooltip": false
+    },
+
+    "custom/cpu": {
+        "exec": "~/.config/waybar/scripts/cpu.sh",
+        "interval": 2,
+        "tooltip": false
+    },
+
+    "custom/gpu": {
+        "exec": "~/.config/waybar/scripts/gpu.sh",
+        "interval": 2,
+        "tooltip": false
+    },
+
+    "custom/disk": {
+        "exec": "~/.config/waybar/scripts/disk.sh",
+        "interval": 2,
+        "tooltip": false
+    },
+
+    "custom/net": {
+        "exec": "~/.config/waybar/scripts/net.sh",
+        "interval": 2,
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "[VOL: {volume}%]",
+        "format-muted": "[VOL: MUTED]",
+        "on-click": "pavucontrol",
+        "tooltip": false
+}
+}
+    "network": {
+        "format-wifi": "[WIFI: {essid}]",
+        "format-ethernet": "[ETH]",
+        "format-disconnected": "[OFFLINE]",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}"
+    },
+
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 16,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close"
+    }
+}

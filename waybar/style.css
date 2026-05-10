@@ -1,0 +1,116 @@
+* {
+font-family: "JetBrainsMono Nerd Font", "JetBrains Mono Nerd Font", monospace;
+font-size: 16px;
+min-height: 0;
+border: none;
+border-radius: 0;
+}
+
+window#waybar {
+    background-color: rgba(20, 20, 20, 1);
+    color: #e6e6e6;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Workspaces — left */
+#workspaces {
+margin-left: 6px;
+}
+
+#workspaces button {
+padding: 0 10px;
+margin: 0;
+color: #bdbdbd;
+background: transparent;
+box-shadow: none;
+}
+
+#workspaces button:hover {
+color: #ffffff;
+background: rgba(255, 255, 255, 0.06);
+}
+
+#workspaces button.active {
+color: #ffffff;
+background: rgba(255, 255, 255, 0.12);
+}
+
+#workspaces button.urgent {
+color: #ffffff;
+background: rgba(180, 70, 70, 0.65);
+}
+
+/* Clock — center */
+#clock {
+padding: 0 14px;
+color: #f2f2f2;
+}
+
+/* Right-side text modules */
+#custom-ram,
+#custom-cpu,
+#custom-gpu,
+#custom-disk,
+#custom-net,
+#pulseaudio,
+#network {
+padding: 0 8px;
+}
+
+/* Color-coded trackers */
+#custom-ram {
+color: #c792ea;
+}
+
+#custom-cpu {
+color: #7fdb7f;
+}
+
+#custom-gpu {
+color: #f2c94c;
+}
+
+#custom-disk {
+color: #f2994a;
+}
+
+#custom-net {
+color: #56b6ff;
+}
+
+#pulseaudio {
+color: #e6e6e6;
+}
+
+#pulseaudio.muted {
+color: #9a9a9a;
+}
+
+#network {
+color: #56d4dd;
+}
+
+#network.disconnected {
+color: #ff6b6b;
+}
+
+/* Open apps taskbar — right */
+#taskbar {
+padding: 0 8px 0 6px;
+}
+
+#taskbar button {
+padding: 0 6px;
+margin: 0;
+background: transparent;
+color: #e0e0e0;
+box-shadow: none;
+}
+
+#taskbar button:hover {
+background: rgba(255, 255, 255, 0.08);
+}
+
+#taskbar button.active {
+background: rgba(255, 255, 255, 0.12);
+}
