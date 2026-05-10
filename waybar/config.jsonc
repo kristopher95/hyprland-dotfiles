@@ -18,7 +18,8 @@
         "custom/gpu",
         "pulseaudio",
         "network",
-        "wlr/taskbar"
+        "wlr/taskbar",
+        "custom/power"
     ],
 
     "hyprland/workspaces": {
@@ -27,8 +28,8 @@
         "format": "{name}",
         "persistent-workspaces": {
             "*": [1, 2, 3, 4, 5]
-}
-},
+        }
+    },
 
     "clock": {
         "format": "{:%a %b %d  %I:%M %p}",
@@ -70,8 +71,8 @@
         "format-muted": "[VOL: MUTED]",
         "on-click": "pavucontrol",
         "tooltip": false
-}
-}
+    },
+
     "network": {
         "format-wifi": "[WIFI: {essid}]",
         "format-ethernet": "[ETH]",
@@ -87,5 +88,17 @@
         "tooltip-format": "{title}",
         "on-click": "activate",
         "on-click-middle": "close"
+    },
+
+    "custom/power": {
+        "format": "⏻",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "~/.config/waybar/power_menu.xml",
+        "menu-actions": {
+            "suspend": "systemctl suspend",
+            "reboot": "systemctl reboot",
+            "shutdown": "systemctl poweroff"
+        }
     }
 }
