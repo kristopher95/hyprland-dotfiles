@@ -1,96 +1,117 @@
-IN CASE MY PC EXPLODES
-=======================
-Hyprland Dotfiles Setup
-=======================
+# Hyprland Dotfiles
 
-This repository contains my full Hyprland configuration including:
-- Hyprland main config (~/.config/hypr)
-- Waybar with color-coded RAM, CPU, GPU modules (~/.config/waybar)
-- Kitty terminal configuration with JetBrains Mono Nerd Font (~/.config/kitty)
-- Rofi Tokyo Night theme with Papirus icons (~/.config/rofi)
-- Scripts for Waybar modules: volume, RAM, CPU, GPU
-- Minimal login setup via greetd + tuigreet
+A personal collection of Hyprland configuration dotfiles — ready to use or customize as your base Hyprland setup.
 
-Step-by-Step Setup
-------------------
+Dotfiles in this repo define configuration for Hyprland itself and related desktop tooling such as Waybar, launcher scripts, keybindings, themes, and other utilities. Dotfiles control everything from workspace behavior to widget appearance.
 
-1. Install CachyOS (or Arch-based Linux)
+---
 
-2. Update system and install required packages:
-   sudo pacman -Syu
-   sudo pacman -S hyprland waybar kitty rofi wpctl papirus-icon-theme git
+Included Configuration
 
-3. Clone this repository:
-   git clone git@github.com:kristopher95/hyprland-dotfiles.git
-   cd hyprland-dotfiles
+- Hyprland config (~/.config/hypr/hyprland.conf)
+- Waybar configuration (~/.config/waybar/)
+- Launcher and script folders
+- Optional themes and utilities
 
-4. Copy configs to your home directory:
-   cp -r hypr ~/.config/hypr
-   cp -r waybar ~/.config/waybar
-   cp -r kitty ~/.config/kitty
-   cp -r rofi ~/.config/rofi
+---
 
-5. Make all Waybar scripts executable:
-   chmod +x ~/.config/waybar/scripts/*.sh
+Prerequisites
 
-6. Ensure JetBrains Mono Nerd Font is installed for Kitty, Waybar, and Rofi
+Before installing these dotfiles, install the following dependencies.
 
-7. Test Rofi theme:
-   rofi -show drun
+For Arch-based systems (Arch, Manjaro, CachyOS):
 
-8. Configure minimal login with greetd + tuigreet:
-   sudo nano /etc/greetd/config.toml
+sudo pacman -Syu
+sudo pacman -S hyprland waybar swaybg swayidle swaylock kitty alacritty rofi
+sudo pacman -S nitrogen pamixer playerctl brightnessctl feh pavucontrol
+sudo pacman -S ttf-jetbrains-mono-nerd noto-fonts noto-fonts-cjk ttf-font-awesome
+sudo pacman -S polkit lxappearance dunst
 
-   Paste the following:
+For Ubuntu/Debian-based systems:
 
-   [terminal]
-   vt = 1
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y kitty alacritty rofi nitrogen swayidle swaylock feh pavucontrol fonts-jetbrains-mono fonts-font-awesome dunst
 
-   [default_session]
-   command = "tuigreet --time --remember --cmd start-hyprland"
-   user = "kris"
+*Note:* Make sure Waybar is installed and configured. GPU tools like nvidia-smi may be required if using GPU modules.
 
-9. Enable greetd and disable SDDM:
-   sudo systemctl enable greetd
-   sudo systemctl disable sddm
-   sudo systemctl restart greetd
+---
 
-10. Restart Waybar to apply module settings:
-    pkill waybar
-    waybar &
+Installation
 
-11. Configure volume module (optional):
-    - Click opens pavucontrol (default)
-    - Scroll or scripts can be used for incremental volume control
+1) Clone the Repository
 
-12. Optional: SSH key setup for GitHub backup
-    ssh-keygen -t ed25519 -C "kristopher95@github.com"
-    cat ~/.ssh/id_ed25519.pub  # copy the key
-    # Add to GitHub → Settings → SSH and GPG keys → New SSH key
-    ssh -T git@github.com     # test connection
-    git remote set-url origin git@github.com:kristopher95/hyprland-dotfiles.git
-    git push -u origin main
+git clone https://github.com/kristopher95/hyprland-dotfiles.git
+cd hyprland-dotfiles
 
-13. Adjust Waybar font size (ultrawide monitors):
-    ~/.config/waybar/style.css
+2) Backup Your Current Config
 
-14. Adjust Rofi font and icon size for ultrawide:
-    ~/.config/rofi/config.rasi
+cp -r ~/.config/hypr ~/.config/hypr-backup
+cp -r ~/.config/waybar ~/.config/waybar-backup
 
-15. Optional Hyprland tweaks:
-    - Window gaps and borders: ~/.config/hypr/hyprland.conf
-    - Monitor refresh rates configured in Hyprland outputs section
+3) Apply Dotfile Configs
 
-16. Updating dotfiles:
-    git add .
-    git commit -m "Update configs"
-    git push
+cp -r .config ~/.config/
 
-Notes
------
-- Kitty, Waybar, and Rofi are all dark-themed and OLED-friendly
-- Waybar modules include RAM, CPU, GPU, volume, network, and taskbar
-- Login uses greetd + tuigreet for minimal startup
-- Fully color-coded Tokyo Night aesthetic across Rofi and Waybar
-- Ultrawide + secondary monitor fully supported
-- All scripts included and ready to use
+Alternatively, use symlinks:
+
+ln -s ~/path/to/hyprland-dotfiles/.config/hypr ~/.config/hypr
+ln -s ~/path/to/hyprland-dotfiles/.config/waybar ~/.config/waybar
+
+4) Reload or Restart
+
+Restart Hyprland or reload config:
+
+- Press your Hyprland reload shortcut (often Super+Esc), or
+- Log out and log back in
+
+---
+
+Testing & Verification
+
+After installation:
+
+1. Check that Hyprland launches without errors
+2. Verify keybindings work as expected
+3. Ensure bar/launcher panels display correctly
+
+If something doesn’t behave as expected, review logs or revert using backups.
+
+---
+
+Customization
+
+You can customize:
+
+- Keybindings inside hyprland.conf
+- Waybar modules, themes, and colors
+- Launcher scripts and panel widgets
+- Terminal, shell, and plugin configs
+
+These dotfiles are intended to be a base you extend and maintain.
+
+---
+
+Screenshots / Showcase (Optional)
+
+Add a screenshots/ folder and reference them like:
+
+![Hyprland Desktop](screenshots/desktop.png)
+![Waybar Modules](screenshots/waybar.png)
+
+---
+
+Tips
+
+- Use symlinks so the repo and config always stay in sync
+- Consider using a tool like stow or custom install scripts for better management
+- Always keep backups before major changes
+
+---
+
+License
+
+This project is licensed under the MIT License
+
+---
+
+Made for users who want a clean, fully functional, customizable Hyprland desktop setup that can be reused or built upon.
