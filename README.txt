@@ -1,3 +1,5 @@
+IN CASE MY PC EXPLODES
+=======================
 Hyprland Dotfiles Setup
 =======================
 
