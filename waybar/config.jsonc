@@ -33,7 +33,8 @@
 
     "clock": {
         "format": "{:%a %b %d  %I:%M %p}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+        "tooltip": false,
+        "on-click": "~/.scripts/toggle_calendar.sh"
     },
 
     "custom/ram": {
