@@ -1,16 +1,31 @@
 #!/usr/bin/env bash
 
-default_sink="$(pactl get-default-sink)"
+default_sink="$(pactl get-default-sink 2>/dev/null)"
+
+escape_yuck() {
+    sed \
+        -e 's/\\/\\\\/g' \
+        -e 's/"/\\"/g' \
+        -e 's/&/\&amp;/g' \
+        -e 's/</\&lt;/g' \
+        -e 's/>/\&gt;/g'
+}
+
+printf '(box :class "audio-device-list" :orientation "vertical" :space-evenly false :spacing 4 '
 
 pactl list short sinks | while IFS=$'\t' read -r id name driver sample state; do
-    description="$(pactl list sinks | awk -v sink_name="$name" '
-        $1 == "Name:" && $2 == sink_name { found=1 }
-        found && $1 == "Description:" {
-            sub(/^[[:space:]]*Description:[[:space:]]*/, "")
-            print
-            exit
-        }
-    ')"
+    description="$(
+        pactl list sinks | awk -v sink_name="$name" '
+            $1 == "Name:" && $2 == sink_name { found=1 }
+            found && $1 == "Description:" {
+                sub(/^[[:space:]]*Description:[[:space:]]*/, "")
+                print
+                exit
+            }
+        '
+    )"
+
+    [[ -z "$description" ]] && description="$name"
 
     if [[ "$name" == "$default_sink" ]]; then
         icon="●"
@@ -20,8 +35,10 @@ pactl list short sinks | while IFS=$'\t' read -r id name driver sample state; do
         class="audio-device"
     fi
 
-    safe_description="${description//\"/\\\"}"
+    safe_description="$(printf '%s' "$description" | escape_yuck)"
 
-    printf '(button :class "%s" :onclick "pactl set-default-sink %s" (label :text "%s %s"))\n' \
+    printf '(button :class "%s" :onclick "~/.config/eww/scripts/set_audio_output.sh '\''%s'\''" (label :text "%s %s")) ' \
         "$class" "$name" "$icon" "$safe_description"
 done
+
+printf ')'

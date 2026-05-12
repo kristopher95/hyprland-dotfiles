@@ -69,31 +69,30 @@
            :value volume
            :onchange "pamixer --set-volume {}")
 
-    (box :class "audio-section"
-         :orientation "vertical"
+    (box :orientation "vertical"
          :space-evenly false
-         :spacing 6
-      (label :class "audio-section-title"
-             :text "OUTPUTS")
-      (box :class "audio-device-list"
+         :spacing 14
+
+      (box :class "audio-section"
            :orientation "vertical"
            :space-evenly false
-        (literal :content audio_outputs))
-    )
+           :spacing 6
+        (label :class "audio-section-title"
+               :text "OUTPUTS")
+        (literal :content audio_outputs)
+      )
 
-    (box :class "audio-section"
-         :orientation "vertical"
-         :space-evenly false
-         :spacing 6
-      (label :class "audio-section-title"
-             :text "INPUTS")
-      (box :class "audio-device-list"
+      (box :class "audio-section"
            :orientation "vertical"
            :space-evenly false
-        (literal :content audio_inputs))
+           :spacing 6
+        (label :class "audio-section-title"
+               :text "INPUTS")
+        (literal :content audio_inputs)
+      )
     )
 
-      (button :class "open-mixer-button"
+    (button :class "open-mixer-button"
             :onclick "pavucontrol >/dev/null 2>&1 & eww close volume_popup; eww close backdrop0; eww close backdrop1"
       (label :text "Open Full Mixer"))
   )
@@ -115,8 +114,8 @@
   :geometry (geometry
     :x "18px"
     :y "42px"
-    :width "380px"
-    :height "330px"
+    :width "460px"
+    :height "560px"
     :anchor "top right")
   :stacking "overlay"
   :exclusive false
@@ -139,5 +138,3 @@
   :exclusive false
   :focusable false
   (calendar_backdrop))
-
-
