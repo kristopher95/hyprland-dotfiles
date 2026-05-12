@@ -40,13 +40,15 @@
     "custom/ram": {
         "exec": "~/.config/waybar/scripts/ram.sh",
         "interval": 2,
-        "tooltip": false
+        "return-type": "json",
+        "tooltip": true
     },
 
     "custom/cpu": {
         "exec": "~/.config/waybar/scripts/cpu.sh",
         "interval": 2,
-        "tooltip": false
+        "return-type": "json",
+        "tooltip": true
     },
 
     "custom/gpu": {
