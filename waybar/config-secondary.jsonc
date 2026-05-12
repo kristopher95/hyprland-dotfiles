@@ -1,0 +1,77 @@
+{
+    "output": "DP-1",
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 0,
+
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+
+    "modules-center": [
+        "clock"
+    ],
+
+    "modules-right": [
+        "custom/ram_compact",
+        "custom/cpu_compact",
+        "custom/gpu_compact",
+        "pulseaudio",
+        "custom/power"
+    ],
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}",
+        "persistent-workspaces": {
+            "*": [1, 2, 3, 4, 5]
+        }
+    },
+
+    "clock": {
+        "format": "{:%I:%M %p}",
+        "tooltip-format": "{:%A, %B %d, %Y}",
+        "on-click": "~/.scripts/toggle_calendar.sh"
+    },
+
+    "custom/ram_compact": {
+        "exec": "~/.config/waybar/scripts/ram_compact.sh",
+        "interval": 2,
+        "tooltip": false
+    },
+
+    "custom/cpu_compact": {
+        "exec": "~/.config/waybar/scripts/cpu_compact.sh",
+        "interval": 2,
+        "tooltip": false
+    },
+
+    "custom/gpu_compact": {
+        "exec": "~/.config/waybar/scripts/gpu_compact.sh",
+        "interval": 2,
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "[V:{volume}%]",
+        "format-muted": "[V:M]",
+        "on-click": "~/.scripts/toggle_volume.sh",
+        "on-click-right": "pavucontrol",
+        "tooltip": false
+    },
+
+    "custom/power": {
+        "format": "⏻",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "~/.config/waybar/power_menu.xml",
+        "menu-actions": {
+            "lock": "hyprlock",
+            "suspend": "systemctl suspend",
+            "reboot": "systemctl reboot",
+            "shutdown": "systemctl poweroff"
+        }
+    }
+}
