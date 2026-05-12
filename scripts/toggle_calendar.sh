@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+eww daemon >/dev/null 2>&1 &
+
 if eww active-windows | grep -q '^fancy_calendar:'; then
     eww close fancy_calendar
     eww close backdrop0
