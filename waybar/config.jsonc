@@ -99,6 +99,7 @@
         "menu-file": "~/.config/waybar/power_menu.xml",
         "menu-actions": {
             "suspend": "systemctl suspend",
+            "lock": "hyprlock",
             "reboot": "systemctl reboot",
             "shutdown": "systemctl poweroff"
         }
