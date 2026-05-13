@@ -9,4 +9,4 @@ fi
 
 percent="$(awk -v v="$vol" 'BEGIN { printf "%.0f", v * 100 }')"
 
-echo "[S-VOL: ${percent}%]"
+echo "${percent}%"

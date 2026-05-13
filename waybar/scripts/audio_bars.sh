@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+# Exit quietly if Waybar closes the pipe.
+trap 'exit 0' PIPE
+
 config="/tmp/waybar_cava_config"
 
 cat > "$config" <<'EOF'
 [general]
-bars = 12
-framerate = 24
+bars = 10
+framerate = 18
 autosens = 1
 sensitivity = 100
 
@@ -25,8 +28,10 @@ cava -p "$config" 2>/dev/null | while read -r line; do
     [[ -z "$line" ]] && continue
 
     out=""
+
     for (( i=0; i<${#line}; i++ )); do
         char="${line:i:1}"
+
         case "$char" in
             0) out="${out}▁" ;;
             1) out="${out}▂" ;;
@@ -40,5 +45,5 @@ cava -p "$config" 2>/dev/null | while read -r line; do
         esac
     done
 
-    echo "$out"
+    echo "$out" || exit 0
 done

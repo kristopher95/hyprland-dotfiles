@@ -11,14 +11,14 @@ if [[ -z "$track" ]]; then
     exit 0
 fi
 
-max_len=34
+max_len=22
 
 if (( ${#track} <= max_len )); then
     display="$track"
 else
     padded="$track     •     "
     len=${#padded}
-    offset=$(( $(date +%s) % len ))
+    offset=$(( ($(date +%s%N) / 250000000) % len ))
 
     display="${padded:offset:max_len}"
 
@@ -31,11 +31,15 @@ fi
 tooltip="$(printf "Spotify\nStatus: %s\nTrack: %s" "$status" "$track")"
 
 python3 -c '
+import html
 import json
 import sys
 
+text = html.escape(sys.argv[1])
+tooltip = html.escape(sys.argv[2])
+
 print(json.dumps({
-    "text": sys.argv[1],
-    "tooltip": sys.argv[2]
+    "text": text,
+    "tooltip": tooltip
 }))
 ' "$display" "$tooltip"
