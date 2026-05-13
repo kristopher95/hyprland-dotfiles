@@ -6,7 +6,16 @@
     "spacing": 0,
 
     "modules-left": [
-        "hyprland/workspaces"
+    "hyprland/workspaces",
+    "custom/spotify-window",
+    "custom/spotify-prev",
+    "custom/spotify-toggle",
+    "custom/spotify-next",
+    "custom/spotify-vol-down",
+    "custom/spotify-volume",
+    "custom/spotify-vol-up",
+    "custom/spotify-title",
+    "custom/audio-bars"
     ],
 
     "modules-center": [
@@ -83,5 +92,63 @@
             "reboot": "systemctl reboot",
             "shutdown": "systemctl poweroff"
         }
+    },
+
+    "custom/spotify-prev": {
+    "format": "󰒮",
+    "on-click": "playerctl -p spotify previous",
+    "tooltip": false
+},
+
+"custom/spotify-toggle": {
+    "exec": "~/.config/waybar/scripts/spotify_status.sh",
+    "interval": 1,
+    "on-click": "playerctl -p spotify play-pause",
+    "tooltip": false
+},
+
+"custom/spotify-next": {
+    "format": "󰒭",
+    "on-click": "playerctl -p spotify next",
+    "tooltip": false
+},
+
+"custom/spotify-vol-down": {
+    "format": "󰝞",
+    "on-click": "playerctl -p spotify volume 0.05-",
+    "tooltip": false
+},
+
+"custom/spotify-volume": {
+    "exec": "~/.config/waybar/scripts/spotify_volume.sh",
+    "interval": 1,
+    "on-scroll-up": "playerctl -p spotify volume 0.05+",
+    "on-scroll-down": "playerctl -p spotify volume 0.05-",
+    "tooltip": false
+},
+
+"custom/spotify-vol-up": {
+    "format": "󰝝",
+    "on-click": "playerctl -p spotify volume 0.05+",
+    "tooltip": false
+},
+
+"custom/spotify-title": {
+    "exec": "~/.config/waybar/scripts/spotify_title.sh",
+    "interval": 1,
+    "return-type": "json",
+    "tooltip": true
+},
+
+    "custom/audio-bars": {
+        "exec": "~/.config/waybar/scripts/audio_bars.sh",
+        "tooltip": false
+    },
+
+    "custom/spotify-window": {
+        "format": "",
+        "on-click": "~/.scripts/toggle_spotify.sh",
+        "tooltip": true,
+        "tooltip-format": "Open / hide Spotify"
     }
 }

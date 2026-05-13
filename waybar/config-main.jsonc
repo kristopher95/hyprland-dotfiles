@@ -7,6 +7,7 @@
 
     "modules-left": [
     "hyprland/workspaces",
+    "custom/spotify-window",
     "custom/spotify-prev",
     "custom/spotify-toggle",
     "custom/spotify-next",
@@ -162,8 +163,15 @@
     "tooltip": true
 },
 
-"custom/audio-bars": {
-    "exec": "~/.config/waybar/scripts/audio_bars.sh",
-    "tooltip": false
-}
+    "custom/audio-bars": {
+        "exec": "~/.config/waybar/scripts/audio_bars.sh",
+        "tooltip": false
+    },
+
+    "custom/spotify-window": {
+        "format": "",
+        "on-click": "~/.scripts/toggle_spotify.sh",
+        "tooltip": true,
+        "tooltip-format": "Open / hide Spotify"
+    }
 }

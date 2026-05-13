@@ -137,6 +137,7 @@ menuitem:hover {
 }
 
 /* Spotify controls — left */
+#custom-spotify-window,
 #custom-spotify-prev,
 #custom-spotify-toggle,
 #custom-spotify-next,
@@ -179,4 +180,15 @@ color: #9ece6a;
 #custom-audio-bars {
 color: #7dcfff;
 min-width: 95px;
+}
+
+/* Space between workspaces and Spotify widget */
+#custom-spotify-prev {
+margin-left: 30px;
+}
+
+#custom-spotify-window {
+margin-left: 18px;
+color: #1db954;
+font-size: 18px;
 }
