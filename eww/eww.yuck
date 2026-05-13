@@ -7,9 +7,6 @@
 (defpoll full_date :interval "60s"
   "date '+%B %-d, %Y'")
 
-(defpoll upcoming_schedule :interval "300s"
-  "~/.config/eww/scripts/upcoming_schedule.sh")
-
 (defpoll volume :interval "1s"
   "pamixer --get-volume")
 
@@ -42,15 +39,6 @@
               :show-heading true
               :show-day-names true
               :show-week-numbers false)
-
-    (box :class "calendar-divider")
-
-    (label :class "schedule-title"
-           :text "Upcoming")
-
-    (label :class "schedule-list"
-           :halign "start"
-           :text upcoming_schedule)
   )
 )
 
@@ -118,7 +106,7 @@
     :x "0px"
     :y "42px"
     :width "560px"
-    :height "680px"
+    :height "520px"
     :anchor "top center")
   :stacking "overlay"
   :exclusive false

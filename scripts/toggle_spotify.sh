@@ -1,48 +1,59 @@
 #!/usr/bin/env bash
 
-# Toggle Spotify on Hyprland:
-# - launch if not running
-# - focus if open
-# - hide to special workspace if currently focused
-
-spotify_class="Spotify"
-special_ws="special:spotify"
 spotify_cmd="spotify-launcher"
+special_ws="special:spotify"
 
-# Launch Spotify if not running
-if ! pgrep -f "spotify" >/dev/null 2>&1; then
-    "$spotify_cmd" >/dev/null 2>&1 &
-    exit 0
-fi
-
-active_class="$(
-    hyprctl activewindow -j 2>/dev/null | jq -r '.class // empty'
-)"
-
-# If Spotify is currently focused, hide it
-if [[ "$active_class" == "$spotify_class" ]]; then
-    hyprctl dispatch movetoworkspacesilent "$special_ws"
-    exit 0
-fi
-
-# Try to find Spotify window address
+# Get Spotify window address, if it exists.
 spotify_addr="$(
     hyprctl clients -j |
-    jq -r --arg cls "$spotify_class" '.[] | select(.class == $cls) | .address' |
+    jq -r '.[] | select(.class | ascii_downcase == "spotify") | .address' |
     head -n1
 )"
 
-# If Spotify process exists but no window exists yet, launch/focus launcher again
-if [[ -z "$spotify_addr" ]]; then
+# If no Spotify window exists, launch Spotify.
+if [[ -z "$spotify_addr" || "$spotify_addr" == "null" ]]; then
     "$spotify_cmd" >/dev/null 2>&1 &
     exit 0
 fi
 
-# Bring Spotify to current workspace and focus it
-current_ws="$(
-    hyprctl activeworkspace -j |
-    jq -r '.id'
+# Get active window address.
+active_addr="$(
+    hyprctl activewindow -j 2>/dev/null |
+    jq -r '.address // empty'
 )"
 
-hyprctl dispatch movetoworkspacesilent "$current_ws,address:$spotify_addr"
-hyprctl dispatch focuswindow "address:$spotify_addr"
+# If Spotify is currently focused, hide it.
+if [[ "$active_addr" == "$spotify_addr" ]]; then
+    hyprctl dispatch movetoworkspacesilent "$special_ws,address:$spotify_addr" >/dev/null
+    exit 0
+fi
+
+# Determine monitor under cursor.
+cursor="$(hyprctl cursorpos -j)"
+cursor_x="$(echo "$cursor" | jq -r '.x')"
+cursor_y="$(echo "$cursor" | jq -r '.y')"
+
+target_ws="$(
+    hyprctl monitors -j |
+    jq -r --argjson x "$cursor_x" --argjson y "$cursor_y" '
+        .[] |
+        select(
+            ($x >= .x) and
+            ($x < (.x + .width)) and
+            ($y >= .y) and
+            ($y < (.y + .height))
+        ) |
+        .activeWorkspace.id
+    ' |
+    head -n1
+)"
+
+# Fallback if cursor detection fails.
+if [[ -z "$target_ws" || "$target_ws" == "null" ]]; then
+    target_ws="$(hyprctl activeworkspace -j | jq -r '.id')"
+fi
+
+# Bring Spotify to the workspace under the mouse and focus it.
+hyprctl dispatch movetoworkspacesilent "$target_ws,address:$spotify_addr" >/dev/null
+sleep 0.05
+hyprctl dispatch focuswindow "address:$spotify_addr" >/dev/null
