@@ -7,6 +7,9 @@
 (defpoll full_date :interval "60s"
   "date '+%B %-d, %Y'")
 
+(defpoll upcoming_schedule :interval "300s"
+  "~/.config/eww/scripts/upcoming_schedule.sh")
+
 (defpoll volume :interval "1s"
   "pamixer --get-volume")
 
@@ -18,6 +21,7 @@
 
 (defpoll audio_inputs :interval "2s"
   "~/.config/eww/scripts/audio_inputs.sh")
+
 
 (defwidget fancy_calendar []
   (box :class "calendar-panel"
@@ -38,8 +42,18 @@
               :show-heading true
               :show-day-names true
               :show-week-numbers false)
+
+    (box :class "calendar-divider")
+
+    (label :class "schedule-title"
+           :text "Upcoming")
+
+    (label :class "schedule-list"
+           :halign "start"
+           :text upcoming_schedule)
   )
 )
+
 
 (defwidget volume_popup []
   (box :class "volume-panel"
@@ -98,17 +112,19 @@
   )
 )
 
+
 (defwindow fancy_calendar
   :geometry (geometry
     :x "0px"
     :y "42px"
-    :width "420px"
-    :height "440px"
+    :width "560px"
+    :height "680px"
     :anchor "top center")
   :stacking "overlay"
   :exclusive false
   :focusable false
   (fancy_calendar))
+
 
 (defwindow volume_popup
   :geometry (geometry
@@ -122,10 +138,12 @@
   :focusable false
   (volume_popup))
 
+
 (defwidget calendar_backdrop []
   (eventbox :class "calendar-backdrop"
     :onclick "eww close fancy_calendar; eww close volume_popup; eww close backdrop0; eww close backdrop1"
     (box)))
+
 
 (defwindow calendar_backdrop
   :geometry (geometry
