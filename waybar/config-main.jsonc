@@ -6,7 +6,15 @@
     "spacing": 0,
 
     "modules-left": [
-        "hyprland/workspaces"
+    "hyprland/workspaces",
+    "custom/spotify-prev",
+    "custom/spotify-toggle",
+    "custom/spotify-next",
+    "custom/spotify-vol-down",
+    "custom/spotify-volume",
+    "custom/spotify-vol-up",
+    "custom/spotify-title",
+    "custom/audio-bars"
     ],
 
     "modules-center": [
@@ -106,5 +114,25 @@
             "reboot": "systemctl reboot",
             "shutdown": "systemctl poweroff"
         }
-    }
+    },
+
+    "custom/spotify-vol-down": {
+        "format": "󰝞",
+        "on-click": "playerctl -p spotify volume 0.05-",
+        "tooltip": false
+    },
+
+    "custom/spotify-volume": {
+        "exec": "~/.config/waybar/scripts/spotify_volume.sh",
+        "interval": 1,
+        "on-scroll-up": "playerctl -p spotify volume 0.05+",
+        "on-scroll-down": "playerctl -p spotify volume 0.05-",
+        "tooltip": false
+    },
+
+    "custom/spotify-vol-up": {
+        "format": "󰝝",
+        "on-click": "playerctl -p spotify volume 0.05+",
+        "tooltip": false
+    },
 }
