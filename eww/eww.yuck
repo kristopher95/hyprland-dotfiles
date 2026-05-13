@@ -66,10 +66,10 @@
     )
 
     (scale :class "volume-slider"
-           :min 0
-           :max 100
-           :value volume
-           :onchange "pamixer --set-volume {}")
+       :min 0
+       :max 100
+       :value volume
+       :onchange "pamixer --set-volume {}; eww update volume={}")
 
     (box :orientation "vertical"
          :space-evenly false
