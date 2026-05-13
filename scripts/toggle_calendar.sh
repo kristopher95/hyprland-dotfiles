@@ -27,7 +27,16 @@ for monitor in monitors:
     bottom = top + monitor["height"]
 
     if left <= x < right and top <= y < bottom:
-        print(monitor["id"])
+        name = monitor["name"]
+
+        # Eww screen numbers are reversed on this setup.
+        if name == "DP-1":
+            print(1)
+        elif name == "DP-3":
+            print(0)
+        else:
+            print(0)
+
         break
 else:
     print(0)
