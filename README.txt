@@ -717,11 +717,11 @@ Use exact iCloud CalDAV URLs if auto-discovery fails.
 
 Example Home calendar URL:
 
-https://p48-caldav.icloud.com/1220961844/calendars/home/
+https://pXX-caldav.icloud.com/ACCOUNT_ID/calendars/home/
 
 Username:
 
-kristophervessella@icloud.com
+your-icloud-email@example.com
 
 Password:
 
@@ -738,7 +738,7 @@ Delete anything related to:
 
 icloud
 caldav
-p48-caldav.icloud.com
+pXX-caldav.icloud.com
 caldav.icloud.com
 
 Then restart Thunderbird:
