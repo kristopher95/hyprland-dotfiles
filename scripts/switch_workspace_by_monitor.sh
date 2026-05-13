@@ -8,16 +8,15 @@ cursor_x="${cursor_pos%%,*}"
 # Monitor layout:
 # DP-1 = 2560x1440 at x=0
 # DP-3 = 3440x1440 at x=2560
-#
-# x < 2560  = DP-1
-# x >= 2560 = DP-3
 
 if (( cursor_x < 2560 )); then
-    # Secondary monitor: workspaces 11-18
+    monitor="DP-1"
     target="$((key + 10))"
 else
-    # Main ultrawide: workspaces 1-8
+    monitor="DP-3"
     target="$key"
 fi
 
+# Force Hyprland to operate on the monitor under the mouse.
+hyprctl dispatch focusmonitor "$monitor" >/dev/null
 hyprctl dispatch workspace "$target"
