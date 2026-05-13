@@ -7,10 +7,11 @@
 
 spotify_class="Spotify"
 special_ws="special:spotify"
+spotify_cmd="spotify-launcher"
 
 # Launch Spotify if not running
-if ! pgrep -x spotify >/dev/null 2>&1 && ! pgrep -f "spotify" >/dev/null 2>&1; then
-    spotify >/dev/null 2>&1 &
+if ! pgrep -f "spotify" >/dev/null 2>&1; then
+    "$spotify_cmd" >/dev/null 2>&1 &
     exit 0
 fi
 
@@ -31,9 +32,9 @@ spotify_addr="$(
     head -n1
 )"
 
-# If no window exists yet, launch again
+# If Spotify process exists but no window exists yet, launch/focus launcher again
 if [[ -z "$spotify_addr" ]]; then
-    spotify >/dev/null 2>&1 &
+    "$spotify_cmd" >/dev/null 2>&1 &
     exit 0
 fi
 
