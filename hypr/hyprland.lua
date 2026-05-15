@@ -401,7 +401,13 @@ hl.bind("SUPER + SHIFT + down", hl.dsp.window.resize({
   relative = true,
 }))
 
--- Switch workspaces independently per monitor
+------------------------------------------------------------
+-- Independent monitor workspace keybinds
+------------------------------------------------------------
+
+-- Switch workspace only.
+-- These must call switch_workspace_by_monitor.sh.
+-- They must NOT use hl.dsp.window.move().
 hl.bind("SUPER + 1", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 1"))
 hl.bind("SUPER + 2", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 2"))
 hl.bind("SUPER + 3", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 3"))
@@ -411,7 +417,8 @@ hl.bind("SUPER + 6", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_mo
 hl.bind("SUPER + 7", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 7"))
 hl.bind("SUPER + 8", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 8"))
 
--- Move active window to workspace independently per monitor
+-- Move active window only.
+-- These must call move_window_to_workspace_by_monitor.sh.
 hl.bind("SUPER + SHIFT + 1", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 1"))
 hl.bind("SUPER + SHIFT + 2", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 2"))
 hl.bind("SUPER + SHIFT + 3", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 3"))

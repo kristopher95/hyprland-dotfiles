@@ -1,23 +1,39 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-key="$1"
+num="${1:-}"
 
-cursor_pos="$(hyprctl cursorpos)"
-cursor_x="${cursor_pos%%,*}"
+case "$num" in
+  1|2|3|4|5|6|7|8) ;;
+  *)
+    echo "Usage: $0 <1-8>"
+    exit 1
+    ;;
+esac
 
-# Monitor layout:
-# DP-1 = 2560x1440 at x=0
-# DP-3 = 3440x1440 at x=2560
-#
-# x < 2560  = DP-1
-# x >= 2560 = DP-3
+active_monitor="$(
+  hyprctl monitors | awk '
+    /^Monitor / {
+      current = $2
+    }
 
-if (( cursor_x < 2560 )); then
-    # Secondary monitor: workspaces 11-18
-    target="$((key + 10))"
+    /focused: yes/ {
+      print current
+      exit
+    }
+  '
+)"
+
+if [[ "$active_monitor" == "DP-1" ]]; then
+  target_ws=$((10 + num))
 else
-    # Main ultrawide: workspaces 1-8
-    target="$key"
+  target_ws="$num"
 fi
 
-hyprctl dispatch movetoworkspace "$target"
+# IMPORTANT:
+# This moves the active window only.
+# This should only be called by SUPER + SHIFT + number.
+hyprctl dispatch "hl.dsp.window.move({ workspace = \"$target_ws\", follow = false })"
+
+# Instantly refresh Waybar workspace buttons.
+pkill -RTMIN+8 waybar 2>/dev/null || true

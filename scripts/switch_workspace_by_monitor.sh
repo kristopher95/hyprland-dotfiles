@@ -1,22 +1,39 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-key="$1"
+num="${1:-}"
 
-cursor_pos="$(hyprctl cursorpos)"
-cursor_x="${cursor_pos%%,*}"
+case "$num" in
+  1|2|3|4|5|6|7|8) ;;
+  *)
+    echo "Usage: $0 <1-8>"
+    exit 1
+    ;;
+esac
 
-# Monitor layout:
-# DP-1 = 2560x1440 at x=0
-# DP-3 = 3440x1440 at x=2560
+active_monitor="$(
+  hyprctl monitors | awk '
+    /^Monitor / {
+      current = $2
+    }
 
-if (( cursor_x < 2560 )); then
-    monitor="DP-1"
-    target="$((key + 10))"
+    /focused: yes/ {
+      print current
+      exit
+    }
+  '
+)"
+
+if [[ "$active_monitor" == "DP-1" ]]; then
+  target_ws=$((10 + num))
 else
-    monitor="DP-3"
-    target="$key"
+  target_ws="$num"
 fi
 
-# Force Hyprland to operate on the monitor under the mouse.
-hyprctl dispatch focusmonitor "$monitor" >/dev/null
-hyprctl dispatch workspace "$target"
+# IMPORTANT:
+# This switches workspace only.
+# It must NOT use hl.dsp.window.move().
+hyprctl dispatch "hl.dsp.focus({ workspace = \"$target_ws\" })"
+
+# Instantly refresh Waybar workspace buttons.
+pkill -RTMIN+8 waybar 2>/dev/null || true
