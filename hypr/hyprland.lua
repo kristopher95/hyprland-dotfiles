@@ -1,12 +1,29 @@
 -- ~/.config/hypr/hyprland.lua
--- Minimal Hyprland 0.55.1 Lua test config
+-- Hyprland 0.55.1 Lua config
 
+------------------------------------------------------------
 -- Programs
+------------------------------------------------------------
+
 local terminal = "kitty"
 local file_manager = "dolphin"
 local menu = "rofi -show drun"
 
+------------------------------------------------------------
+-- Environment variables
+------------------------------------------------------------
+
+hl.env("XCURSOR_SIZE", "38")
+hl.env("HYPRCURSOR_SIZE", "38")
+
+-- NVIDIA
+hl.env("LIBVA_DRIVER_NAME", "nvidia")
+hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+
+------------------------------------------------------------
 -- Monitors
+------------------------------------------------------------
+
 hl.monitor({
   output = "DP-1",
   mode = "2560x1440@59.95",
@@ -21,7 +38,10 @@ hl.monitor({
   scale = 1,
 })
 
+------------------------------------------------------------
 -- Workspace rules
+------------------------------------------------------------
+
 -- Main ultrawide workspaces on DP-3
 hl.workspace_rule({ workspace = "1", monitor = "DP-3", default = true })
 hl.workspace_rule({ workspace = "2", monitor = "DP-3" })
@@ -42,11 +62,20 @@ hl.workspace_rule({ workspace = "16", monitor = "DP-1" })
 hl.workspace_rule({ workspace = "17", monitor = "DP-1" })
 hl.workspace_rule({ workspace = "18", monitor = "DP-1" })
 
--- Basic Hyprland options
+------------------------------------------------------------
+-- Hyprland settings
+------------------------------------------------------------
+
 hl.config({
   input = {
     kb_layout = "us",
+    kb_variant = "",
+    kb_model = "",
+    kb_options = "",
+    kb_rules = "",
+
     follow_mouse = 1,
+    sensitivity = -0.5,
 
     touchpad = {
       natural_scroll = false,
@@ -54,39 +83,82 @@ hl.config({
   },
 
   general = {
-    gaps_in = 5,
-    gaps_out = 10,
+    gaps_in = 1,
+    gaps_out = 1,
+
     border_size = 2,
-    layout = "dwindle",
+
+    ["col.active_border"] = {
+      colors = {
+        "rgba(33ccffee)",
+          "rgba(00ff99ee)",
+      },
+      angle = 45,
+    },
+
+    ["col.inactive_border"] = {
+      colors = {
+        "rgba(595959aa)",
+      },
+    },
+
+          resize_on_border = false,
+          allow_tearing = false,
+
+          layout = "dwindle",
   },
 
   decoration = {
-    rounding = 10,
+    rounding = 0,
+    rounding_power = 2,
+
+    active_opacity = 1.0,
+    inactive_opacity = 1.0,
+
+    shadow = {
+      enabled = true,
+      range = 4,
+      render_power = 3,
+      color = "rgba(1a1a1aee)",
+    },
+
+    blur = {
+      enabled = true,
+      size = 3,
+      passes = 1,
+      vibrancy = 0.1696,
+    },
   },
 
   dwindle = {
     preserve_split = true,
   },
 
+  master = {
+    new_status = "master",
+  },
+
   misc = {
-    disable_hyprland_logo = true,
     force_default_wallpaper = -1,
+      disable_hyprland_logo = false,
   },
 })
 
--- Emergency autostart.
--- This opens Kitty on login so you are not trapped if a bind fails.
+------------------------------------------------------------
+-- Autostart
+------------------------------------------------------------
+
 hl.on("hyprland.start", function()
 -- Emergency terminal while testing Lua migration.
--- Remove this later once the full config is stable.
+-- Remove later once the full config is stable.
 hl.exec_cmd(terminal)
 
 -- Bars
 hl.exec_cmd("waybar -c ~/.config/waybar/config-main.jsonc -s ~/.config/waybar/style.css")
 hl.exec_cmd("waybar -c ~/.config/waybar/config-secondary.jsonc -s ~/.config/waybar/style.css")
 
--- Wallpaper/workspace automation
-hl.exec_cmd("~/.scripts/workspace_wallpaper_daemon.sh")
+-- Workspace-based wallpaper automation
+hl.exec_cmd("/home/kris/.scripts/workspace_wallpaper_daemon.sh")
 
 -- Idle/lock handling
 hl.exec_cmd("hypridle")
@@ -98,13 +170,18 @@ hl.exec_cmd("eww daemon")
 hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
 end)
 
--- Keybinds migrated from old hyprland.conf
+------------------------------------------------------------
+-- Keybinds
+------------------------------------------------------------
 
 -- Main app/window binds
 hl.bind("SUPER + Q", hl.dsp.exec_cmd(terminal))
 hl.bind("SUPER + C", hl.dsp.window.close())
 
-hl.bind("SUPER + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+hl.bind(
+  "SUPER + M",
+  hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
+)
 
 hl.bind("SUPER + E", hl.dsp.exec_cmd(file_manager))
 hl.bind("SUPER + B", hl.dsp.exec_cmd("firefox"))
@@ -112,6 +189,7 @@ hl.bind("SUPER + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + R", hl.dsp.exec_cmd(menu))
 hl.bind("SUPER + P", hl.dsp.window.pseudo({ action = "toggle" }))
 hl.bind("SUPER + J", hl.dsp.layout("togglesplit"))
+
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({
   mode = "fullscreen",
   action = "toggle",
@@ -172,7 +250,7 @@ hl.bind("SUPER + SHIFT + 8", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to
 hl.bind("SUPER + S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind("SUPER + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
--- Scroll through workspaces with SUPER + mouse wheel
+-- Scroll through existing workspaces with SUPER + mouse wheel
 hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
@@ -228,7 +306,9 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), {
   locked = true,
 })
 
--- Window rules migrated from old hyprland.conf
+------------------------------------------------------------
+-- Window rules
+------------------------------------------------------------
 
 hl.window_rule({
   name = "suppress-maximize-events",
