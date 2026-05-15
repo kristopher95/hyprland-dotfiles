@@ -136,62 +136,6 @@ menuitem:hover {
     background-color: rgba(255, 255, 255, 0.10);
 }
 
-/* Spotify controls — left */
-#custom-spotify-window,
-#custom-spotify-prev,
-#custom-spotify-toggle,
-#custom-spotify-next,
-#custom-spotify-vol-down,
-#custom-spotify-volume,
-#custom-spotify-vol-up,
-#custom-spotify-title,
-#custom-audio-bars {
-padding: 0 5px;
-color: #b8e986;
-}
-
-#custom-spotify-prev,
-#custom-spotify-toggle,
-#custom-spotify-next,
-#custom-spotify-vol-down,
-#custom-spotify-vol-up {
-font-size: 17px;
-}
-
-#custom-spotify-prev:hover,
-#custom-spotify-toggle:hover,
-#custom-spotify-next:hover,
-#custom-spotify-vol-down:hover,
-#custom-spotify-volume:hover,
-#custom-spotify-vol-up:hover {
-background: rgba(255, 255, 255, 0.08);
-color: #ffffff;
-}
-
-#custom-spotify-title {
-color: #e6e6e6;
-min-width: 145px;
-}
-
-#custom-spotify-volume {
-color: #9ece6a;
-}
-
-#custom-audio-bars {
-color: #7dcfff;
-min-width: 95px;
-}
-
-/* Space between workspaces and Spotify widget */
-#custom-spotify-prev {
-margin-left: 30px;
-}
-
-#custom-spotify-window {
-margin-left: 18px;
-color: #1db954;
-font-size: 18px;
-}
 
 /* Custom clickable workspace buttons for Hyprland Lua */
 #custom-ws1,
