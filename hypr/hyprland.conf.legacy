@@ -1,0 +1,330 @@
+# This is a Hyprland config file.
+# Refer to the wiki for more information:
+# https://wiki.hypr.land/Configuring/
+
+# You can split this configuration into multiple files later if you want.
+# For now, keep everything in one file so it is easy to work with.
+
+
+################
+### MONITORS ###
+################
+
+monitor = DP-1,2560x1440@59.95100,0x0,1
+monitor = DP-3,3440x1440@143.97501,2560x0,1
+
+
+###################
+### MY PROGRAMS ###
+###################
+
+$terminal = kitty
+$fileManager = dolphin
+$menu = rofi -show drun
+
+
+#################
+### AUTOSTART ###
+#################
+
+# Status bar
+exec-once = waybar -c ~/.config/waybar/config-main.jsonc -s ~/.config/waybar/style.css
+exec-once = waybar -c ~/.config/waybar/config-secondary.jsonc -s ~/.config/waybar/style.css
+
+# Wallpaper manager
+# exec-once = hyprpaper
+
+# Workspace-based planet wallpapers
+exec-once = ~/.scripts/workspace_wallpaper_daemon.sh
+
+exec-once = hypridle
+
+# Start Eww daemon early so calendar opens faster
+exec-once = eww daemon
+
+# Reload once after monitor initialization
+exec-once = sh -c 'sleep 2; hyprctl reload'
+
+# Password/authentication popups for admin actions
+exec-once = /usr/lib/polkit-kde-authentication-agent-1
+
+
+#############################
+### ENVIRONMENT VARIABLES ###
+#############################
+
+env = XCURSOR_SIZE,38
+env = HYPRCURSOR_SIZE,38
+
+# NVIDIA
+env = LIBVA_DRIVER_NAME,nvidia
+env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+
+
+###################
+### PERMISSIONS ###
+###################
+
+# Please note permission changes here require a Hyprland restart
+# and are not applied on-the-fly for security reasons.
+
+# ecosystem {
+#   enforce_permissions = 1
+# }
+
+# permission = /usr/(bin|local/bin)/grim, screencopy, allow
+# permission = /usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland, screencopy, allow
+# permission = /usr/(bin|local/bin)/hyprpm, plugin, allow
+
+
+#####################
+### LOOK AND FEEL ###
+#####################
+
+general {
+    gaps_in = 1
+    gaps_out = 1
+
+    border_size = 2
+
+    col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
+    col.inactive_border = rgba(595959aa)
+
+    resize_on_border = false
+    allow_tearing = false
+
+    layout = dwindle
+}
+
+decoration {
+    rounding = 0
+    rounding_power = 2
+
+    active_opacity = 1.0
+    inactive_opacity = 1.0
+
+    shadow {
+        enabled = true
+        range = 4
+        render_power = 3
+        color = rgba(1a1a1aee)
+    }
+
+    blur {
+        enabled = true
+        size = 3
+        passes = 1
+        vibrancy = 0.1696
+    }
+}
+
+animations {
+    enabled = yes, please :)
+
+    bezier = easeOutQuint,   0.23, 1,    0.32, 1
+    bezier = easeInOutCubic, 0.65, 0.05, 0.36, 1
+    bezier = linear,         0,    0,    1,    1
+    bezier = almostLinear,   0.5,  0.5,  0.75, 1
+    bezier = quick,          0.15, 0,    0.1,  1
+
+    animation = global,        1,     10,    default
+    animation = border,        1,     5.39,  easeOutQuint
+    animation = windows,       1,     4.79,  easeOutQuint
+    animation = windowsIn,     1,     4.1,   easeOutQuint, popin 87%
+    animation = windowsOut,    1,     1.49,  linear,       popin 87%
+    animation = fadeIn,        1,     1.73,  almostLinear
+    animation = fadeOut,       1,     1.46,  almostLinear
+    animation = fade,          1,     3.03,  quick
+    animation = layers,        1,     3.81,  easeOutQuint
+    animation = layersIn,      1,     4,     easeOutQuint, fade
+    animation = layersOut,     1,     1.5,   linear,       fade
+    animation = fadeLayersIn,  1,     1.79,  almostLinear
+    animation = fadeLayersOut, 1,     1.39,  almostLinear
+    animation = workspaces,    0
+    animation = workspacesIn,  0
+    animation = workspacesOut, 0
+    animation = zoomFactor,    1,     7,     quick
+}
+
+
+########################
+### LAYOUT BEHAVIOUR ###
+########################
+
+dwindle {
+    preserve_split = true
+}
+
+master {
+    new_status = master
+}
+
+misc {
+    force_default_wallpaper = -1
+    disable_hyprland_logo = false
+}
+
+
+#############
+### INPUT ###
+#############
+
+input {
+    kb_layout = us
+    kb_variant =
+    kb_model =
+    kb_options =
+    kb_rules =
+
+    follow_mouse = 1
+
+    sensitivity = -0.5
+
+    touchpad {
+        natural_scroll = false
+    }
+}
+
+gesture = 3, horizontal, workspace
+
+device {
+    name = epic-mouse-v1
+    sensitivity = -0.5
+}
+
+
+##############################
+### WINDOWS AND WORKSPACES ###
+##############################
+
+# Main ultrawide workspaces
+workspace = 1, monitor:DP-3, default:true
+workspace = 2, monitor:DP-3
+workspace = 3, monitor:DP-3
+workspace = 4, monitor:DP-3
+workspace = 5, monitor:DP-3
+workspace = 6, monitor:DP-3
+workspace = 7, monitor:DP-3
+workspace = 8, monitor:DP-3
+
+# Secondary monitor workspaces
+workspace = 11, monitor:DP-1, default:true
+workspace = 12, monitor:DP-1
+workspace = 13, monitor:DP-1
+workspace = 14, monitor:DP-1
+workspace = 15, monitor:DP-1
+workspace = 16, monitor:DP-1
+workspace = 17, monitor:DP-1
+workspace = 18, monitor:DP-1
+
+$mainMod = SUPER
+
+# Searchable shortcut cheat sheet
+bindd = $mainMod, slash, Show shortcut cheat sheet, exec, ~/.scripts/show_hypr_binds.sh
+
+# Basic app / window binds
+bindd = $mainMod, Q, Open terminal, exec, $terminal
+bindd = $mainMod, C, Close active window, killactive,
+bindd = $mainMod, M, Exit Hyprland, exec, command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit
+bindd = $mainMod, E, Open file manager, exec, $fileManager
+bindd = $mainMod, B, Open Firefox, exec, firefox
+bindd = $mainMod, V, Toggle floating window, togglefloating,
+bindd = $mainMod, R, Open app launcher, exec, ~/.scripts/toggle_rofi_drun.sh
+bindd = $mainMod, P, Toggle pseudo tiling, pseudo,
+bindd = $mainMod, J, Toggle split layout, layoutmsg, togglesplit
+bindd = $mainMod, F, Toggle fullscreen, fullscreen
+
+# Screenshot selected area
+bindd = SUPER SHIFT, S, Screenshot selected area, exec, mkdir -p "$HOME/Pictures/Screenshots" && FILE="$HOME/Pictures/Screenshots/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" && grim -g "$(slurp)" "$FILE" && wl-copy < "$FILE"
+
+# Lock screen
+bindd = SUPER, L, Lock screen, exec, hyprlock
+
+# Move focus with mainMod + arrow keys
+bindd = $mainMod, left, Move focus left, movefocus, l
+bindd = $mainMod, right, Move focus right, movefocus, r
+bindd = $mainMod, up, Move focus up, movefocus, u
+bindd = $mainMod, down, Move focus down, movefocus, d
+
+# Resize active window with mainMod + Shift + arrow keys
+bindd = $mainMod SHIFT, right, Resize window right, resizeactive, 250 0
+bindd = $mainMod SHIFT, left, Resize window left, resizeactive, -250 0
+bindd = $mainMod SHIFT, up, Resize window up, resizeactive, 0 -250
+bindd = $mainMod SHIFT, down, Resize window down, resizeactive, 0 250
+
+# Switch workspaces independently per monitor
+bindd = SUPER, 1, Workspace 1, exec, ~/.scripts/switch_workspace_by_monitor.sh 1
+bindd = SUPER, 2, Workspace 2, exec, ~/.scripts/switch_workspace_by_monitor.sh 2
+bindd = SUPER, 3, Workspace 3, exec, ~/.scripts/switch_workspace_by_monitor.sh 3
+bindd = SUPER, 4, Workspace 4, exec, ~/.scripts/switch_workspace_by_monitor.sh 4
+bindd = SUPER, 5, Workspace 5, exec, ~/.scripts/switch_workspace_by_monitor.sh 5
+bindd = SUPER, 6, Workspace 6, exec, ~/.scripts/switch_workspace_by_monitor.sh 6
+bindd = SUPER, 7, Workspace 7, exec, ~/.scripts/switch_workspace_by_monitor.sh 7
+bindd = SUPER, 8, Workspace 8, exec, ~/.scripts/switch_workspace_by_monitor.sh 8
+
+# Move active window to workspace independently per monitor
+bindd = SUPER SHIFT, 1, Move window to workspace 1, exec, ~/.scripts/move_window_to_workspace_by_monitor.sh 1
+bindd = SUPER SHIFT, 2, Move window to workspace 2, exec, ~/.scripts/move_window_to_workspace_by_monitor.sh 2
+bindd = SUPER SHIFT, 3, Move window to workspace 3, exec, ~/.scripts/move_window_to_workspace_by_monitor.sh 3
+bindd = SUPER SHIFT, 4, Move window to workspace 4, exec, ~/.scripts/move_window_to_workspace_by_monitor.sh 4
+bindd = SUPER SHIFT, 5, Move window to workspace 5, exec, ~/.scripts/move_window_to_workspace_by_monitor.sh 5
+bindd = SUPER SHIFT, 6, Move window to workspace 6, exec, ~/.scripts/move_window_to_workspace_by_monitor.sh 6
+bindd = SUPER SHIFT, 7, Move window to workspace 7, exec, ~/.scripts/move_window_to_workspace_by_monitor.sh 7
+bindd = SUPER SHIFT, 8, Move window to workspace 8, exec, ~/.scripts/move_window_to_workspace_by_monitor.sh 8
+
+# Special workspace / scratchpad
+# bindd = $mainMod, S, Toggle special workspace, togglespecialworkspace, magic
+# bindd = $mainMod SHIFT, S, Move window to special workspace, movetoworkspace, special:magic
+
+# Scroll through existing workspaces with mainMod + mouse wheel
+bindd = $mainMod, mouse_down, Next workspace, workspace, e+1
+bindd = $mainMod, mouse_up, Previous workspace, workspace, e-1
+
+# Move / resize windows with mainMod + mouse buttons
+bindm = $mainMod, mouse:272, movewindow
+bindm = $mainMod, mouse:273, resizewindow
+
+# Laptop multimedia keys
+bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindel = , XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindel = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindel = , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindel = , XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+
+bindel = , XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-
+
+# Media playback keys
+bindl = , XF86AudioNext, exec, playerctl next
+bindl = , XF86AudioPause, exec, playerctl play-pause
+bindl = , XF86AudioPlay, exec, playerctl play-pause
+bindl = , XF86AudioPrev, exec, playerctl previous
+
+##############################
+### WINDOWS AND WORKSPACES ###
+##############################
+
+windowrule {
+    name = suppress-maximize-events
+    match:class = .*
+
+    suppress_event = maximize
+}
+
+windowrule {
+    name = fix-xwayland-drags
+    match:class = ^$
+    match:title = ^$
+    match:xwayland = true
+    match:float = true
+    match:fullscreen = false
+    match:pin = false
+
+    no_focus = true
+}
+
+windowrule {
+    name = move-hyprland-run
+    match:class = hyprland-run
+
+    move = 20 monitor_h-120
+    float = yes
+}
