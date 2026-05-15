@@ -38,50 +38,74 @@
     ],
 
     "custom/ws1": {
-        "format": "1",
-        "tooltip": false,
+        "exec": "~/.config/waybar/scripts/ws_button.sh 1 1",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "tooltip": true,
         "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"1\" })'"
     },
 
     "custom/ws2": {
-        "format": "2",
-        "tooltip": false,
+        "exec": "~/.config/waybar/scripts/ws_button.sh 2 2",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "tooltip": true,
         "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"2\" })'"
     },
 
     "custom/ws3": {
-        "format": "3",
-        "tooltip": false,
+        "exec": "~/.config/waybar/scripts/ws_button.sh 3 3",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "tooltip": true,
         "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"3\" })'"
     },
 
     "custom/ws4": {
-        "format": "4",
-        "tooltip": false,
+        "exec": "~/.config/waybar/scripts/ws_button.sh 4 4",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "tooltip": true,
         "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"4\" })'"
     },
 
     "custom/ws5": {
-        "format": "5",
-        "tooltip": false,
+        "exec": "~/.config/waybar/scripts/ws_button.sh 5 5",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "tooltip": true,
         "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"5\" })'"
     },
 
     "custom/ws6": {
-        "format": "6",
-        "tooltip": false,
+        "exec": "~/.config/waybar/scripts/ws_button.sh 6 6",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "tooltip": true,
         "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"6\" })'"
     },
 
     "custom/ws7": {
-        "format": "7",
-        "tooltip": false,
+        "exec": "~/.config/waybar/scripts/ws_button.sh 7 7",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "tooltip": true,
         "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"7\" })'"
     },
 
     "custom/ws8": {
-        "format": "8",
-        "tooltip": false,
+        "exec": "~/.config/waybar/scripts/ws_button.sh 8 8",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "tooltip": true,
         "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"8\" })'"
     },
 

@@ -314,6 +314,9 @@ hl.on("hyprland.start", function()
 hl.exec_cmd("waybar -c ~/.config/waybar/config-main.jsonc -s ~/.config/waybar/style.css")
 hl.exec_cmd("waybar -c ~/.config/waybar/config-secondary.jsonc -s ~/.config/waybar/style.css")
 
+-- Instant Waybar workspace refresh
+hl.exec_cmd("pkill -f hypr_ws_signal.sh; /home/kris/.config/waybar/scripts/hypr_ws_signal.sh")
+
 -- Workspace-based wallpaper automation
 hl.exec_cmd("/home/kris/.scripts/workspace_wallpaper_daemon.sh")
 
