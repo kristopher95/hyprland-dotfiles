@@ -7,7 +7,7 @@
 
 local terminal = "kitty"
 local file_manager = "dolphin"
-local menu = "rofi -show drun"
+local menu = "/home/kris/.scripts/toggle_rofi_drun.sh"
 
 ------------------------------------------------------------
 -- Environment variables
@@ -102,10 +102,10 @@ hl.config({
       },
     },
 
-          resize_on_border = false,
-          allow_tearing = false,
+    resize_on_border = false,
+    allow_tearing = false,
 
-          layout = "dwindle",
+    layout = "dwindle",
   },
 
   decoration = {
@@ -144,12 +144,10 @@ hl.config({
   },
 })
 
-
 ------------------------------------------------------------
 -- Animations
 ------------------------------------------------------------
 
--- Bezier curves migrated from old hyprland.conf
 hl.curve("easeOutQuint", {
   type = "bezier",
   points = {
@@ -190,7 +188,6 @@ hl.curve("quick", {
   },
 })
 
--- Animations migrated from old hyprland.conf
 hl.animation({
   leaf = "global",
   enabled = true,
@@ -286,7 +283,6 @@ hl.animation({
   bezier = "almostLinear",
 })
 
--- Keep workspace animations disabled like your old config
 hl.animation({
   leaf = "workspaces",
   enabled = false,
@@ -314,10 +310,6 @@ hl.animation({
 ------------------------------------------------------------
 
 hl.on("hyprland.start", function()
--- Emergency terminal while testing Lua migration.
--- Remove later once the full config is stable.
-hl.exec_cmd(terminal)
-
 -- Bars
 hl.exec_cmd("waybar -c ~/.config/waybar/config-main.jsonc -s ~/.config/waybar/style.css")
 hl.exec_cmd("waybar -c ~/.config/waybar/config-secondary.jsonc -s ~/.config/waybar/style.css")
@@ -333,11 +325,17 @@ hl.exec_cmd("eww daemon")
 
 -- Polkit auth agent
 hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
+
+-- Old monitor-init workaround from your legacy config
+hl.exec_cmd("sh -c 'sleep 2; hyprctl reload'")
 end)
 
 ------------------------------------------------------------
 -- Keybinds
 ------------------------------------------------------------
+
+-- Shortcut cheat sheet
+hl.bind("SUPER + slash", hl.dsp.exec_cmd("/home/kris/.scripts/show_hypr_binds.sh"))
 
 -- Main app/window binds
 hl.bind("SUPER + Q", hl.dsp.exec_cmd(terminal))
@@ -359,6 +357,15 @@ hl.bind("SUPER + F", hl.dsp.window.fullscreen({
   mode = "fullscreen",
   action = "toggle",
 }))
+
+-- Screenshot selected area
+hl.bind(
+  "SUPER + SHIFT + S",
+  hl.dsp.exec_cmd([[mkdir -p "$HOME/Pictures/Screenshots" && FILE="$HOME/Pictures/Screenshots/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" && grim -g "$(slurp)" "$FILE" && wl-copy < "$FILE"]])
+)
+
+-- Lock screen
+hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock"))
 
 -- Move focus with SUPER + arrow keys
 hl.bind("SUPER + left", hl.dsp.focus({ direction = "l" }))
@@ -410,10 +417,6 @@ hl.bind("SUPER + SHIFT + 5", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to
 hl.bind("SUPER + SHIFT + 6", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 6"))
 hl.bind("SUPER + SHIFT + 7", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 7"))
 hl.bind("SUPER + SHIFT + 8", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 8"))
-
--- Scratchpad
-hl.bind("SUPER + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind("SUPER + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Scroll through existing workspaces with SUPER + mouse wheel
 hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
