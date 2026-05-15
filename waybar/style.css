@@ -192,3 +192,18 @@ margin-left: 18px;
 color: #1db954;
 font-size: 18px;
 }
+
+/* Custom clickable workspace buttons for Hyprland Lua */
+#custom-ws11,
+#custom-ws12,
+#custom-ws13,
+#custom-ws14,
+#custom-ws15,
+#custom-ws16,
+#custom-ws17,
+#custom-ws18 {
+min-width: 18px;
+padding: 0 8px;
+margin: 0 3px;
+border-radius: 8px;
+}
