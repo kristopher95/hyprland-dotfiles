@@ -194,6 +194,14 @@ font-size: 18px;
 }
 
 /* Custom clickable workspace buttons for Hyprland Lua */
+#custom-ws1,
+#custom-ws2,
+#custom-ws3,
+#custom-ws4,
+#custom-ws5,
+#custom-ws6,
+#custom-ws7,
+#custom-ws8,
 #custom-ws11,
 #custom-ws12,
 #custom-ws13,
@@ -202,8 +210,8 @@ font-size: 18px;
 #custom-ws16,
 #custom-ws17,
 #custom-ws18 {
-min-width: 18px;
-padding: 0 8px;
-margin: 0 3px;
+min-width: 12px;
+padding: 0 6px;
+margin: 0 2px;
 border-radius: 8px;
 }

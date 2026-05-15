@@ -1,21 +1,28 @@
 {
-    "layer": "top",
     "output": "DP-3",
+    "layer": "top",
     "position": "top",
     "height": 32,
     "spacing": 0,
 
     "modules-left": [
-    "hyprland/workspaces",
-    "custom/spotify-window",
-    "custom/spotify-prev",
-    "custom/spotify-toggle",
-    "custom/spotify-next",
-    "custom/spotify-vol-down",
-    "custom/spotify-volume",
-    "custom/spotify-vol-up",
-    "custom/spotify-title",
-    "custom/audio-bars"
+        "custom/ws1",
+        "custom/ws2",
+        "custom/ws3",
+        "custom/ws4",
+        "custom/ws5",
+        "custom/ws6",
+        "custom/ws7",
+        "custom/ws8",
+        "custom/spotify-window",
+        "custom/spotify-prev",
+        "custom/spotify-toggle",
+        "custom/spotify-next",
+        "custom/spotify-vol-down",
+        "custom/spotify-volume",
+        "custom/spotify-vol-up",
+        "custom/spotify-title",
+        "custom/audio-bars"
     ],
 
     "modules-center": [
@@ -23,85 +30,91 @@
     ],
 
     "modules-right": [
-        "custom/ram",
-        "custom/cpu",
-        "custom/gpu",
+        "custom/ram_compact",
+        "custom/cpu_compact",
+        "custom/gpu_compact",
         "pulseaudio",
-        "network",
-        "wlr/taskbar",
         "custom/power"
     ],
 
-    "hyprland/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": false,
-        "format": "{name}",
-        "persistent-workspaces": {
-        "DP-3": [1, 2, 3, 4, 5, 6, 7, 8]
-        }
+    "custom/ws1": {
+        "format": "1",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"1\" })'"
+    },
+
+    "custom/ws2": {
+        "format": "2",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"2\" })'"
+    },
+
+    "custom/ws3": {
+        "format": "3",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"3\" })'"
+    },
+
+    "custom/ws4": {
+        "format": "4",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"4\" })'"
+    },
+
+    "custom/ws5": {
+        "format": "5",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"5\" })'"
+    },
+
+    "custom/ws6": {
+        "format": "6",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"6\" })'"
+    },
+
+    "custom/ws7": {
+        "format": "7",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"7\" })'"
+    },
+
+    "custom/ws8": {
+        "format": "8",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"8\" })'"
     },
 
     "clock": {
-        "format": "{:%a %b %d  %I:%M %p}",
-        "tooltip": false,
+        "format": "{:%I:%M %p}",
+        "tooltip-format": "{:%A, %B %d, %Y}",
         "on-click": "~/.scripts/toggle_calendar.sh"
     },
 
-    "custom/ram": {
-        "exec": "~/.config/waybar/scripts/ram.sh",
-        "interval": 2,
-        "return-type": "json",
-        "tooltip": true
-    },
-
-    "custom/cpu": {
-        "exec": "~/.config/waybar/scripts/cpu.sh",
-        "interval": 2,
-        "return-type": "json",
-        "tooltip": true
-    },
-
-    "custom/gpu": {
-        "exec": "~/.config/waybar/scripts/gpu.sh",
+    "custom/ram_compact": {
+        "exec": "~/.config/waybar/scripts/ram_compact.sh",
         "interval": 2,
         "tooltip": false
     },
 
-    "custom/disk": {
-        "exec": "~/.config/waybar/scripts/disk.sh",
+    "custom/cpu_compact": {
+        "exec": "~/.config/waybar/scripts/cpu_compact.sh",
         "interval": 2,
         "tooltip": false
     },
 
-    "custom/net": {
-        "exec": "~/.config/waybar/scripts/net.sh",
+    "custom/gpu_compact": {
+        "exec": "~/.config/waybar/scripts/gpu_compact.sh",
         "interval": 2,
         "tooltip": false
     },
 
     "pulseaudio": {
-        "format": "[VOL: {volume}%]",
-        "format-muted": "[VOL: MUTED]",
+        "format": "[V:{volume}%]",
+        "format-muted": "[V:M]",
         "on-click": "~/.scripts/toggle_volume.sh",
         "on-click-right": "pavucontrol",
         "tooltip": false
-    },
-
-    "network": {
-        "format-wifi": "[WIFI: {essid}]",
-        "format-ethernet": "[ETH]",
-        "format-disconnected": "[OFFLINE]",
-        "tooltip-format": "{ifname} via {gwaddr}",
-        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
-        "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}"
-    },
-
-    "wlr/taskbar": {
-        "format": "{icon}",
-        "icon-size": 16,
-        "tooltip-format": "{title}",
-        "on-click": "activate",
-        "on-click-middle": "close"
     },
 
     "custom/power": {
@@ -110,11 +123,30 @@
         "menu": "on-click",
         "menu-file": "~/.config/waybar/power_menu.xml",
         "menu-actions": {
-            "suspend": "systemctl suspend",
             "lock": "hyprlock",
+            "suspend": "systemctl suspend",
             "reboot": "systemctl reboot",
             "shutdown": "systemctl poweroff"
         }
+    },
+
+    "custom/spotify-prev": {
+        "format": "󰒮",
+        "on-click": "playerctl -p spotify previous",
+        "tooltip": false
+    },
+
+    "custom/spotify-toggle": {
+        "exec": "~/.config/waybar/scripts/spotify_status.sh",
+        "interval": 1,
+        "on-click": "playerctl -p spotify play-pause",
+        "tooltip": false
+    },
+
+    "custom/spotify-next": {
+        "format": "󰒭",
+        "on-click": "playerctl -p spotify next",
+        "tooltip": false
     },
 
     "custom/spotify-vol-down": {
@@ -137,31 +169,12 @@
         "tooltip": false
     },
 
-    "custom/spotify-prev": {
-    "format": "󰒮",
-    "on-click": "playerctl -p spotify previous",
-    "tooltip": false
-},
-
-"custom/spotify-toggle": {
-    "exec": "~/.config/waybar/scripts/spotify_status.sh",
-    "interval": 1,
-    "on-click": "playerctl -p spotify play-pause",
-    "tooltip": false
-},
-
-"custom/spotify-next": {
-    "format": "󰒭",
-    "on-click": "playerctl -p spotify next",
-    "tooltip": false
-},
-
-"custom/spotify-title": {
-    "exec": "~/.config/waybar/scripts/spotify_title.sh",
-    "interval": 1,
-    "return-type": "json",
-    "tooltip": true
-},
+    "custom/spotify-title": {
+        "exec": "~/.config/waybar/scripts/spotify_title.sh",
+        "interval": 1,
+        "return-type": "json",
+        "tooltip": true
+    },
 
     "custom/audio-bars": {
         "exec": "~/.config/waybar/scripts/audio_bars.sh",
