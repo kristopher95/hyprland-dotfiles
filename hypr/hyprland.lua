@@ -21,6 +21,27 @@ hl.monitor({
   scale = 1,
 })
 
+-- Workspace rules
+-- Main ultrawide workspaces on DP-3
+hl.workspace_rule({ workspace = "1", monitor = "DP-3", default = true })
+hl.workspace_rule({ workspace = "2", monitor = "DP-3" })
+hl.workspace_rule({ workspace = "3", monitor = "DP-3" })
+hl.workspace_rule({ workspace = "4", monitor = "DP-3" })
+hl.workspace_rule({ workspace = "5", monitor = "DP-3" })
+hl.workspace_rule({ workspace = "6", monitor = "DP-3" })
+hl.workspace_rule({ workspace = "7", monitor = "DP-3" })
+hl.workspace_rule({ workspace = "8", monitor = "DP-3" })
+
+-- Secondary monitor workspaces on DP-1
+hl.workspace_rule({ workspace = "11", monitor = "DP-1", default = true })
+hl.workspace_rule({ workspace = "12", monitor = "DP-1" })
+hl.workspace_rule({ workspace = "13", monitor = "DP-1" })
+hl.workspace_rule({ workspace = "14", monitor = "DP-1" })
+hl.workspace_rule({ workspace = "15", monitor = "DP-1" })
+hl.workspace_rule({ workspace = "16", monitor = "DP-1" })
+hl.workspace_rule({ workspace = "17", monitor = "DP-1" })
+hl.workspace_rule({ workspace = "18", monitor = "DP-1" })
+
 -- Basic Hyprland options
 hl.config({
   input = {
@@ -127,29 +148,25 @@ hl.bind("SUPER + SHIFT + down", hl.dsp.window.resize({
   relative = true,
 }))
 
--- Switch workspaces with SUPER + 0-9
-hl.bind("SUPER + 1", hl.dsp.focus({ workspace = "1" }))
-hl.bind("SUPER + 2", hl.dsp.focus({ workspace = "2" }))
-hl.bind("SUPER + 3", hl.dsp.focus({ workspace = "3" }))
-hl.bind("SUPER + 4", hl.dsp.focus({ workspace = "4" }))
-hl.bind("SUPER + 5", hl.dsp.focus({ workspace = "5" }))
-hl.bind("SUPER + 6", hl.dsp.focus({ workspace = "6" }))
-hl.bind("SUPER + 7", hl.dsp.focus({ workspace = "7" }))
-hl.bind("SUPER + 8", hl.dsp.focus({ workspace = "8" }))
-hl.bind("SUPER + 9", hl.dsp.focus({ workspace = "9" }))
-hl.bind("SUPER + 0", hl.dsp.focus({ workspace = "10" }))
+-- Switch workspaces independently per monitor
+hl.bind("SUPER + 1", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 1"))
+hl.bind("SUPER + 2", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 2"))
+hl.bind("SUPER + 3", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 3"))
+hl.bind("SUPER + 4", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 4"))
+hl.bind("SUPER + 5", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 5"))
+hl.bind("SUPER + 6", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 6"))
+hl.bind("SUPER + 7", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 7"))
+hl.bind("SUPER + 8", hl.dsp.exec_cmd("/home/kris/.scripts/switch_workspace_by_monitor.sh 8"))
 
--- Move active window to workspace with SUPER + SHIFT + 0-9
-hl.bind("SUPER + SHIFT + 1", hl.dsp.window.move({ workspace = "1" }))
-hl.bind("SUPER + SHIFT + 2", hl.dsp.window.move({ workspace = "2" }))
-hl.bind("SUPER + SHIFT + 3", hl.dsp.window.move({ workspace = "3" }))
-hl.bind("SUPER + SHIFT + 4", hl.dsp.window.move({ workspace = "4" }))
-hl.bind("SUPER + SHIFT + 5", hl.dsp.window.move({ workspace = "5" }))
-hl.bind("SUPER + SHIFT + 6", hl.dsp.window.move({ workspace = "6" }))
-hl.bind("SUPER + SHIFT + 7", hl.dsp.window.move({ workspace = "7" }))
-hl.bind("SUPER + SHIFT + 8", hl.dsp.window.move({ workspace = "8" }))
-hl.bind("SUPER + SHIFT + 9", hl.dsp.window.move({ workspace = "9" }))
-hl.bind("SUPER + SHIFT + 0", hl.dsp.window.move({ workspace = "10" }))
+-- Move active window to workspace independently per monitor
+hl.bind("SUPER + SHIFT + 1", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 1"))
+hl.bind("SUPER + SHIFT + 2", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 2"))
+hl.bind("SUPER + SHIFT + 3", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 3"))
+hl.bind("SUPER + SHIFT + 4", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 4"))
+hl.bind("SUPER + SHIFT + 5", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 5"))
+hl.bind("SUPER + SHIFT + 6", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 6"))
+hl.bind("SUPER + SHIFT + 7", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 7"))
+hl.bind("SUPER + SHIFT + 8", hl.dsp.exec_cmd("/home/kris/.scripts/move_window_to_workspace_by_monitor.sh 8"))
 
 -- Scratchpad
 hl.bind("SUPER + S", hl.dsp.workspace.toggle_special("magic"))
