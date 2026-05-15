@@ -40,73 +40,81 @@
     "custom/ws11": {
         "exec": "~/.config/waybar/scripts/ws_button.sh 11 1",
         "return-type": "json",
+        "escape": false,
         "interval": "once",
         "signal": 8,
         "tooltip": true,
-        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"11\" })'"
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"11\" })' && pkill -RTMIN+8 waybar"
     },
 
     "custom/ws12": {
         "exec": "~/.config/waybar/scripts/ws_button.sh 12 2",
         "return-type": "json",
+        "escape": false,
         "interval": "once",
         "signal": 8,
         "tooltip": true,
-        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"12\" })'"
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"12\" })' && pkill -RTMIN+8 waybar"
     },
 
     "custom/ws13": {
         "exec": "~/.config/waybar/scripts/ws_button.sh 13 3",
         "return-type": "json",
+        "escape": false,
         "interval": "once",
         "signal": 8,
         "tooltip": true,
-        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"13\" })'"
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"13\" })' && pkill -RTMIN+8 waybar"
     },
 
     "custom/ws14": {
         "exec": "~/.config/waybar/scripts/ws_button.sh 14 4",
         "return-type": "json",
+        "escape": false,
         "interval": "once",
         "signal": 8,
         "tooltip": true,
-        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"14\" })'"
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"14\" })' && pkill -RTMIN+8 waybar"
     },
 
     "custom/ws15": {
         "exec": "~/.config/waybar/scripts/ws_button.sh 15 5",
         "return-type": "json",
+        "escape": false,
         "interval": "once",
         "signal": 8,
         "tooltip": true,
-        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"15\" })'"
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"15\" })' && pkill -RTMIN+8 waybar"
     },
 
     "custom/ws16": {
         "exec": "~/.config/waybar/scripts/ws_button.sh 16 6",
         "return-type": "json",
+        "escape": false,
         "interval": "once",
         "signal": 8,
         "tooltip": true,
-        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"16\" })'"
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"16\" })' && pkill -RTMIN+8 waybar"
     },
 
     "custom/ws17": {
         "exec": "~/.config/waybar/scripts/ws_button.sh 17 7",
         "return-type": "json",
+        "escape": false,
         "interval": "once",
         "signal": 8,
         "tooltip": true,
-        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"17\" })'"
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"17\" })' && pkill -RTMIN+8 waybar"
     },
 
     "custom/ws18": {
         "exec": "~/.config/waybar/scripts/ws_button.sh 18 8",
         "return-type": "json",
+        "escape": false,
         "interval": "once",
         "signal": 8,
         "tooltip": true,
-        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"18\" })'"
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"18\" })' && pkill -RTMIN+8 waybar"
     },
 
     "clock": {
