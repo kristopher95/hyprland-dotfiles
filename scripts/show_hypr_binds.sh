@@ -5,47 +5,65 @@ if pgrep -f 'rofi -dmenu -i -p Search shortcuts' >/dev/null; then
     exit 0
 fi
 
-hyprctl binds -j | python3 -c '
-import json
-import sys
+cat <<'EOF' | rofi -dmenu -i -p "Search shortcuts"
+SUPER + /                         Show this cheatsheet
 
-binds = json.load(sys.stdin)
+SUPER + Q                         Open terminal
+SUPER + C                         Close window
+SUPER + M                         Power / exit menu
+SUPER + E                         Open file manager
+SUPER + B                         Open Firefox
+SUPER + R                         Open app launcher
+SUPER + L                         Lock screen
 
-MODS = [
-    (1, "SHIFT"),
-    (4, "CTRL"),
-    (8, "ALT"),
-    (64, "SUPER"),
-]
+SUPER + F                         Toggle fullscreen
+SUPER + V                         Toggle floating
+SUPER + P                         Toggle pseudotile
+SUPER + J                         Toggle split
 
-KEY_NAMES = {
-    "slash": "/",
-    "left": "LEFT",
-    "right": "RIGHT",
-    "up": "UP",
-    "down": "DOWN",
-    "mouse_down": "MOUSE WHEEL DOWN",
-    "mouse_up": "MOUSE WHEEL UP",
-}
+SUPER + LEFT                      Focus left
+SUPER + RIGHT                     Focus right
+SUPER + UP                        Focus up
+SUPER + DOWN                      Focus down
 
-rows = []
+SUPER + SHIFT + LEFT              Resize window smaller width
+SUPER + SHIFT + RIGHT             Resize window larger width
+SUPER + SHIFT + UP                Resize window shorter height
+SUPER + SHIFT + DOWN              Resize window taller height
 
-for bind in binds:
-    if not bind.get("has_description"):
-        continue
+SUPER + 1                         Switch workspace 1
+SUPER + 2                         Switch workspace 2
+SUPER + 3                         Switch workspace 3
+SUPER + 4                         Switch workspace 4
+SUPER + 5                         Switch workspace 5
+SUPER + 6                         Switch workspace 6
+SUPER + 7                         Switch workspace 7
+SUPER + 8                         Switch workspace 8
 
-    description = bind.get("description", "").strip()
-    key = bind.get("key", "").strip()
-    modmask = bind.get("modmask", 0)
+SUPER + SHIFT + 1                 Move window to workspace 1
+SUPER + SHIFT + 2                 Move window to workspace 2
+SUPER + SHIFT + 3                 Move window to workspace 3
+SUPER + SHIFT + 4                 Move window to workspace 4
+SUPER + SHIFT + 5                 Move window to workspace 5
+SUPER + SHIFT + 6                 Move window to workspace 6
+SUPER + SHIFT + 7                 Move window to workspace 7
+SUPER + SHIFT + 8                 Move window to workspace 8
 
-    if not description or not key:
-        continue
+SUPER + MOUSE WHEEL DOWN          Next workspace
+SUPER + MOUSE WHEEL UP            Previous workspace
+SUPER + LEFT CLICK                Move window with mouse
+SUPER + RIGHT CLICK               Resize window with mouse
 
-    mods = [name for bit, name in MODS if modmask & bit]
-    key_display = KEY_NAMES.get(key, key.upper())
+SUPER + SHIFT + S                 Screenshot selected area
 
-    shortcut = " + ".join(mods + [key_display]) if mods else key_display
-    rows.append(f"{shortcut:<28} {description}")
+VOLUME UP                         Raise volume
+VOLUME DOWN                       Lower volume
+VOLUME MUTE                       Mute volume
+MIC MUTE                          Mute microphone
+BRIGHTNESS UP                     Raise brightness
+BRIGHTNESS DOWN                   Lower brightness
 
-print("\n".join(rows))
-' | rofi -dmenu -i -p "Search shortcuts"
+MEDIA NEXT                        Next track
+MEDIA PLAY / PAUSE                Play or pause
+MEDIA PREVIOUS                    Previous track
+EOF
