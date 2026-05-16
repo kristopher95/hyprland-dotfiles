@@ -270,3 +270,81 @@ font-weight: bold;
 #custom-ws18.active:hover {
 background: #b4befe;
 }
+
+/* ============================================================
+ *  Main monitor info modules
+ *  ============================================================ */
+
+#cpu,
+#memory,
+#custom-gpu_compact,
+#disk,
+#network,
+#pulseaudio,
+#tray,
+#custom-power {
+padding: 0 8px;
+margin: 0 3px;
+border-radius: 7px;
+color: #cdd6f4;
+background: rgba(30, 30, 46, 0.55);
+}
+
+#cpu {
+color: #f9e2af;
+}
+
+#memory {
+color: #a6e3a1;
+}
+
+#custom-gpu_compact {
+color: #cba6f7;
+}
+
+#disk {
+color: #89b4fa;
+}
+
+#network {
+color: #94e2d5;
+}
+
+#pulseaudio {
+color: #fab387;
+}
+
+#custom-power {
+color: #f38ba8;
+font-weight: bold;
+padding: 0 10px;
+}
+
+#cpu:hover,
+#memory:hover,
+#custom-gpu_compact:hover,
+#disk:hover,
+#network:hover,
+#pulseaudio:hover,
+#custom-power:hover {
+background: rgba(137, 180, 250, 0.20);
+color: #ffffff;
+}
+
+/* ============================================================
+ *  Combined CPU usage + temperature
+ *  ============================================================ */
+
+#custom-cpu_status {
+padding: 0 8px;
+margin: 0 3px;
+border-radius: 7px;
+color: #f9e2af;
+background: rgba(30, 30, 46, 0.55);
+font-weight: 600;
+}
+
+#custom-cpu_status:hover {
+background: rgba(137, 180, 250, 0.20);
+color: #ffffff;
+}
