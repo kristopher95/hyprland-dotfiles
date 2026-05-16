@@ -21,10 +21,11 @@
     ],
 
     "modules-right": [
-        "custom/ram_compact",
-        "custom/cpu_compact",
+        "custom/cpu_status",
+        "memory",
         "custom/gpu_compact",
         "pulseaudio",
+        "tray",
         "custom/power"
     ],
 
@@ -110,20 +111,22 @@
 
     "clock": {
         "format": "{:%I:%M %p}",
-        "tooltip-format": "{:%A, %B %d, %Y}",
+        "tooltip-format": "{:%A, %B %d, %Y\n\n%I:%M:%S %p}",
+        "interval": 1,
         "on-click": "~/.scripts/toggle_calendar.sh"
     },
 
-    "custom/ram_compact": {
-        "exec": "~/.config/waybar/scripts/ram_compact.sh",
+    "custom/cpu_status": {
+        "exec": "~/.config/waybar/scripts/cpu_status.sh",
         "interval": 2,
         "tooltip": false
     },
 
-    "custom/cpu_compact": {
-        "exec": "~/.config/waybar/scripts/cpu_compact.sh",
+    "memory": {
+        "format": "[RAM:{percentage}%]",
         "interval": 2,
-        "tooltip": false
+        "tooltip": true,
+        "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G"
     },
 
     "custom/gpu_compact": {
@@ -133,11 +136,17 @@
     },
 
     "pulseaudio": {
-        "format": "[V:{volume}%]",
-        "format-muted": "[V:M]",
+        "format": "[VOL:{volume}%]",
+        "format-muted": "[VOL:M]",
         "on-click": "~/.scripts/toggle_volume.sh",
         "on-click-right": "pavucontrol",
-        "tooltip": false
+        "tooltip": true,
+        "tooltip-format": "{desc}\nVolume: {volume}%"
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
     },
 
     "custom/power": {

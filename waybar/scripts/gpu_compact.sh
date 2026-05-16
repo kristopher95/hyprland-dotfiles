@@ -1,21 +1,56 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-if ! command -v nvidia-smi >/dev/null 2>&1; then
-    echo "[G: N/A]"
-    exit 0
+# GPU usage/temperature display for Waybar.
+# Output examples:
+# [GPU:42% 55°C]
+# [GPU:55°C]
+# [GPU:N/A]
+
+# NVIDIA path
+if command -v nvidia-smi >/dev/null 2>&1; then
+    output="$(
+        nvidia-smi \
+            --query-gpu=utilization.gpu,temperature.gpu \
+            --format=csv,noheader,nounits 2>/dev/null | head -n 1
+    )"
+
+    if [[ -n "${output:-}" ]]; then
+        usage="$(echo "$output" | awk -F',' '{gsub(/ /, "", $1); print $1}')"
+        temp="$(echo "$output" | awk -F',' '{gsub(/ /, "", $2); print $2}')"
+
+        if [[ -n "${usage:-}" && -n "${temp:-}" ]]; then
+            echo "[GPU:${usage}% ${temp}°C]"
+            exit 0
+        fi
+    fi
 fi
 
-gpu_info="$(
-    nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,noheader,nounits 2>/dev/null |
-    head -n1
+# AMD/Intel fallback using sensors
+temp="$(
+    sensors 2>/dev/null | awk '
+        /edge:/ {
+            gsub(/[+°C]/, "", $2)
+            printf "%d", $2
+            found=1
+            exit
+        }
+
+        /junction:/ {
+            gsub(/[+°C]/, "", $2)
+            printf "%d", $2
+            found=1
+            exit
+        }
+
+        END {
+            if (!found) exit 1
+        }
+    ' || true
 )"
 
-if [[ -z "$gpu_info" ]]; then
-    echo "[G: N/A]"
-    exit 0
+if [[ -n "${temp:-}" ]]; then
+    echo "[GPU:${temp}°C]"
+else
+    echo "[GPU:N/A]"
 fi
-
-usage="$(echo "$gpu_info" | awk -F',' '{gsub(/ /, "", $1); print $1}')"
-temp="$(echo "$gpu_info" | awk -F',' '{gsub(/ /, "", $2); print $2}')"
-
-echo "[G: ${usage}% ${temp}°]"
