@@ -1,3 +1,695 @@
+```text
+# Hyprland Dotfiles — Simple Zero Install Guide
+
+This repo contains my personal Hyprland setup for Arch/CachyOS/EndeavourOS.
+
+It includes:
+
+- Hyprland Lua config
+- Dual Waybar panels
+- Independent monitor workspaces
+- Clickable Waybar workspace buttons
+- CPU/RAM/GPU modules
+- CPU temperature
+- Volume
+- Tray
+- Power menu
+- Rofi launcher
+- Kitty terminal
+- Mako notifications
+- Eww popups
+- Hyprlock / Hypridle
+- Helper scripts
+
+This setup is personal and machine-specific. It is built around my monitor names and layout.
+
+Target monitor layout:
+
+DP-1 = secondary monitor
+Resolution: 2560x1440
+Position: left
+Workspaces: 11-18
+
+DP-3 = main monitor
+Resolution: 3440x1440
+Position: right
+Workspaces: 1-8
+
+If monitor names are different, check them with:
+
+    hyprctl monitors
+
+Then update the monitor names in these files:
+
+    ~/.config/hypr/hyprland.lua
+    ~/.config/waybar/config-main.jsonc
+    ~/.config/waybar/config-secondary.jsonc
+    ~/.scripts/switch_workspace_by_monitor.sh
+    ~/.scripts/move_window_to_workspace_by_monitor.sh
+    ~/.config/waybar/scripts/ws_button.sh
+
+============================================================
+1. Update system
+============================================================
+
+Run:
+
+    sudo pacman -Syu
+
+============================================================
+2. Install required packages
+============================================================
+
+Run:
+
+    sudo pacman -S git base-devel hyprland hyprlock hypridle waybar rofi kitty dolphin kate jq socat playerctl pamixer pavucontrol pipewire pipewire-pulse pipewire-alsa pipewire-jack wireplumber mako libnotify lm_sensors curl wget unzip brightnessctl network-manager-applet grim slurp wl-clipboard papirus-icon-theme ttf-jetbrains-mono-nerd ttf-font-awesome nvidia-utils
+
+Enable PipeWire audio:
+
+    systemctl --user enable --now pipewire pipewire-pulse wireplumber
+
+Check audio:
+
+    pactl info
+
+Open audio settings:
+
+    pavucontrol
+
+Set up CPU temperature sensors:
+
+    sudo sensors-detect --auto
+    sensors
+
+Check NVIDIA tools:
+
+    nvidia-smi
+
+============================================================
+3. Install yay and Eww if needed
+============================================================
+
+If yay is not installed:
+
+    cd ~
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si
+
+Install Eww:
+
+    yay -S eww
+
+If Eww is available through pacman, this may also work:
+
+    sudo pacman -S eww
+
+============================================================
+4. Clone the repo
+============================================================
+
+Run:
+
+    cd ~
+    git clone https://github.com/kristopher95/hyprland-dotfiles.git
+    mv ~/hyprland-dotfiles ~/Hyprland-dotfiles 2>/dev/null || true
+    cd ~/Hyprland-dotfiles
+
+============================================================
+5. Back up existing configs
+============================================================
+
+Run this before installing the dotfiles:
+
+    mkdir -p ~/dotfiles-backup
+
+    cp -r ~/.config/hypr ~/dotfiles-backup/hypr 2>/dev/null || true
+    cp -r ~/.config/waybar ~/dotfiles-backup/waybar 2>/dev/null || true
+    cp -r ~/.config/eww ~/dotfiles-backup/eww 2>/dev/null || true
+    cp -r ~/.config/rofi ~/dotfiles-backup/rofi 2>/dev/null || true
+    cp -r ~/.config/kitty ~/dotfiles-backup/kitty 2>/dev/null || true
+    cp -r ~/.config/mako ~/dotfiles-backup/mako 2>/dev/null || true
+    cp -r ~/.scripts ~/dotfiles-backup/scripts 2>/dev/null || true
+
+============================================================
+6. Create required folders
+============================================================
+
+Run:
+
+    mkdir -p ~/.config/hypr
+    mkdir -p ~/.config/waybar/scripts
+    mkdir -p ~/.config/eww
+    mkdir -p ~/.config/rofi
+    mkdir -p ~/.config/kitty
+    mkdir -p ~/.config/mako
+    mkdir -p ~/.scripts
+    mkdir -p ~/Pictures/Screenshots
+    mkdir -p ~/Pictures/wallpapers
+
+============================================================
+7. Install the dotfiles
+============================================================
+
+Run from inside the repo:
+
+    cd ~/Hyprland-dotfiles
+
+Copy Hyprland files:
+
+    cp hypr/hyprland.lua ~/.config/hypr/hyprland.lua
+    cp hypr/hypridle.conf ~/.config/hypr/hypridle.conf 2>/dev/null || true
+    cp hypr/hyprlock.conf ~/.config/hypr/hyprlock.conf 2>/dev/null || true
+    cp hypr/hyprpaper.conf ~/.config/hypr/hyprpaper.conf 2>/dev/null || true
+
+Copy Waybar files:
+
+    cp waybar/config-main.jsonc ~/.config/waybar/config-main.jsonc
+    cp waybar/config-secondary.jsonc ~/.config/waybar/config-secondary.jsonc
+    cp waybar/style.css ~/.config/waybar/style.css
+    cp waybar/power_menu.xml ~/.config/waybar/power_menu.xml 2>/dev/null || true
+    cp -r waybar/scripts/. ~/.config/waybar/scripts/
+
+Copy helper scripts:
+
+    cp -r scripts/. ~/.scripts/
+
+Copy Rofi files:
+
+    cp -r rofi/. ~/.config/rofi/ 2>/dev/null || true
+
+Copy Kitty files:
+
+    cp -r kitty/. ~/.config/kitty/ 2>/dev/null || true
+
+Copy Mako files:
+
+    cp -r mako/. ~/.config/mako/ 2>/dev/null || true
+
+Copy Eww files:
+
+    cp -r eww/. ~/.config/eww/ 2>/dev/null || true
+
+Make scripts executable:
+
+    chmod +x ~/.scripts/* 2>/dev/null || true
+    chmod +x ~/.config/waybar/scripts/* 2>/dev/null || true
+    chmod +x ~/.config/eww/scripts/* 2>/dev/null || true
+
+============================================================
+8. Start Hyprland
+============================================================
+
+Log out and choose Hyprland from the login screen.
+
+Once inside Hyprland, check for config errors:
+
+    hyprctl reload
+    hyprctl configerrors
+
+Expected result:
+
+    ok
+
+If Hyprland breaks, go to a TTY:
+
+    CTRL + ALT + F3
+
+Log in and disable the Lua config:
+
+    mv ~/.config/hypr/hyprland.lua ~/.config/hypr/hyprland.lua.broken
+
+Then restart SDDM or reboot:
+
+    sudo systemctl restart sddm
+
+or:
+
+    sudo reboot
+
+============================================================
+9. Restart Waybar
+============================================================
+
+Run:
+
+    pkill waybar
+
+    waybar -c ~/.config/waybar/config-main.jsonc -s ~/.config/waybar/style.css &
+    waybar -c ~/.config/waybar/config-secondary.jsonc -s ~/.config/waybar/style.css &
+
+Main Waybar config:
+
+    ~/.config/waybar/config-main.jsonc
+
+Secondary Waybar config:
+
+    ~/.config/waybar/config-secondary.jsonc
+
+Shared Waybar style:
+
+    ~/.config/waybar/style.css
+
+============================================================
+10. Workspace behavior
+============================================================
+
+Main monitor:
+
+    DP-3
+    Workspaces 1-8
+
+Secondary monitor:
+
+    DP-1
+    Workspaces 11-18
+
+Both bars visually show:
+
+    1 2 3 4 5 6 7 8
+
+But internally:
+
+    Main DP-3:      1  2  3  4  5  6  7  8
+    Secondary DP-1: 11 12 13 14 15 16 17 18
+
+Workspace scripts:
+
+    ~/.scripts/switch_workspace_by_monitor.sh
+    ~/.scripts/move_window_to_workspace_by_monitor.sh
+
+Test workspace switching:
+
+    ~/.scripts/switch_workspace_by_monitor.sh 1
+    ~/.scripts/switch_workspace_by_monitor.sh 2
+
+Test moving a window:
+
+    ~/.scripts/move_window_to_workspace_by_monitor.sh 1
+
+============================================================
+11. Keybinds
+============================================================
+
+Main keybinds:
+
+    SUPER + Q            Open Kitty
+    SUPER + C            Close active window
+    SUPER + R            Toggle Rofi launcher
+    SUPER + E            Open Dolphin
+    SUPER + B            Open Firefox
+    SUPER + V            Toggle floating
+    SUPER + F            Toggle fullscreen
+    SUPER + L            Lock screen
+    SUPER + /            Show shortcut cheat sheet
+    SUPER + SHIFT + S    Screenshot selected area
+    SUPER + 1-8          Switch workspace on focused monitor
+    SUPER + SHIFT + 1-8  Move active window to workspace on focused monitor
+    SUPER + mouse left   Move window
+    SUPER + mouse right  Resize window
+
+============================================================
+12. Waybar modules
+============================================================
+
+Main monitor includes:
+
+    Workspaces
+    Clock
+    CPU usage + CPU temperature
+    RAM
+    GPU
+    Disk
+    Network
+    Volume
+    Tray
+    Power
+
+Secondary monitor includes:
+
+    Workspaces
+    Clock
+    CPU usage + CPU temperature
+    RAM
+    GPU
+    Volume
+    Tray
+    Power
+
+Secondary intentionally leaves out:
+
+    Disk
+    Network
+
+============================================================
+13. CPU and GPU modules
+============================================================
+
+CPU script:
+
+    ~/.config/waybar/scripts/cpu_status.sh
+
+Expected output:
+
+    [CPU:8% 52°C]
+
+Test:
+
+    ~/.config/waybar/scripts/cpu_status.sh
+
+GPU script:
+
+    ~/.config/waybar/scripts/gpu_compact.sh
+
+Expected output:
+
+    [GPU:12% 47°C]
+
+Test:
+
+    ~/.config/waybar/scripts/gpu_compact.sh
+
+If CPU temperature does not show:
+
+    sensors
+    sudo sensors-detect --auto
+
+If GPU shows N/A:
+
+    nvidia-smi
+    sudo pacman -S nvidia-utils
+
+============================================================
+14. Waybar workspace buttons
+============================================================
+
+This setup does not use the default Waybar hyprland/workspaces module.
+
+It uses custom modules and this script:
+
+    ~/.config/waybar/scripts/ws_button.sh
+
+This gives:
+
+    Clickable workspace buttons
+    Active workspace highlighting
+    Independent active state per monitor
+    Hover styling
+    Compatibility with Hyprland Lua dispatchers
+
+Test:
+
+    ~/.config/waybar/scripts/ws_button.sh 1 1
+    ~/.config/waybar/scripts/ws_button.sh 11 1
+
+Expected active output example:
+
+    {"text":"<span foreground='#11111b' background='#89b4fa' weight='bold'> 1 </span>","tooltip":"Workspace 1"}
+
+Expected inactive output example:
+
+    {"text":"<span foreground='#a6adc8'> 1 </span>","tooltip":"Workspace 11"}
+
+============================================================
+15. Rofi
+============================================================
+
+Rofi launcher script:
+
+    ~/.scripts/toggle_rofi_drun.sh
+
+Keybind:
+
+    SUPER + R
+
+Manual launch:
+
+    ~/.scripts/toggle_rofi_drun.sh
+
+Rofi config:
+
+    ~/.config/rofi/
+
+============================================================
+16. Kitty
+============================================================
+
+Kitty config:
+
+    ~/.config/kitty/
+
+Keybind:
+
+    SUPER + Q
+
+Manual launch:
+
+    kitty
+
+============================================================
+17. Eww
+============================================================
+
+Eww is used for popups such as calendar and volume.
+
+Start Eww:
+
+    eww daemon &
+
+Reload Eww:
+
+    eww reload
+
+Calendar script:
+
+    ~/.scripts/toggle_calendar.sh
+
+Volume script:
+
+    ~/.scripts/toggle_volume.sh
+
+============================================================
+18. Audio
+============================================================
+
+Waybar uses the pulseaudio module.
+
+Left click:
+
+    toggle volume popup
+
+Right click:
+
+    pavucontrol
+
+Useful commands:
+
+    pavucontrol
+    pamixer --get-volume
+    pamixer --toggle-mute
+
+============================================================
+19. Screenshots
+============================================================
+
+Screenshot keybind:
+
+    SUPER + SHIFT + S
+
+Screenshots save to:
+
+    ~/Pictures/Screenshots/
+
+Required tools:
+
+    grim
+    slurp
+    wl-clipboard
+
+Install if missing:
+
+    sudo pacman -S grim slurp wl-clipboard
+
+============================================================
+20. Notifications
+============================================================
+
+Mako config:
+
+    ~/.config/mako/
+
+Restart Mako:
+
+    pkill mako
+    mako &
+
+============================================================
+21. Lock and idle
+============================================================
+
+Hyprlock config:
+
+    ~/.config/hypr/hyprlock.conf
+
+Hypridle config:
+
+    ~/.config/hypr/hypridle.conf
+
+Lock manually:
+
+    hyprlock
+
+============================================================
+22. Power menu
+============================================================
+
+Waybar power menu file:
+
+    ~/.config/waybar/power_menu.xml
+
+Power menu actions:
+
+    Lock
+    Suspend
+    Reboot
+    Shutdown
+
+============================================================
+23. Troubleshooting
+============================================================
+
+Check Hyprland errors:
+
+    hyprctl configerrors
+
+Reload Hyprland:
+
+    hyprctl reload
+
+Restart Waybar:
+
+    pkill waybar
+
+    waybar -c ~/.config/waybar/config-main.jsonc -s ~/.config/waybar/style.css &
+    waybar -c ~/.config/waybar/config-secondary.jsonc -s ~/.config/waybar/style.css &
+
+Run one Waybar config manually to debug:
+
+    waybar -c ~/.config/waybar/config-main.jsonc -s ~/.config/waybar/style.css
+
+or:
+
+    waybar -c ~/.config/waybar/config-secondary.jsonc -s ~/.config/waybar/style.css
+
+Common Waybar issues:
+
+    missing comma
+    extra comma
+    duplicate module block
+    bad quote escaping
+    missing script permissions
+
+Fix script permissions:
+
+    chmod +x ~/.scripts/* 2>/dev/null || true
+    chmod +x ~/.config/waybar/scripts/* 2>/dev/null || true
+
+If plain workspace keys move windows instead of switching, check:
+
+    ~/.config/hypr/hyprland.lua
+    ~/.scripts/switch_workspace_by_monitor.sh
+    ~/.scripts/move_window_to_workspace_by_monitor.sh
+
+Plain workspace switching should use:
+
+    hl.dsp.focus
+
+Moving windows should use:
+
+    hl.dsp.window.move
+
+Search for workspace bind problems:
+
+    grep -nE "switch_workspace|move_window|window.move|SUPER \\+ [1-8]" ~/.config/hypr/hyprland.lua
+
+============================================================
+24. Sync live config back into the repo
+============================================================
+
+After editing live configs, sync everything back into the repo:
+
+    cd ~/Hyprland-dotfiles
+
+    mkdir -p hypr waybar/scripts scripts rofi kitty mako eww
+
+    cp ~/.config/hypr/hyprland.lua hypr/hyprland.lua
+    cp ~/.config/hypr/hypridle.conf hypr/hypridle.conf 2>/dev/null || true
+    cp ~/.config/hypr/hyprlock.conf hypr/hyprlock.conf 2>/dev/null || true
+    cp ~/.config/hypr/hyprpaper.conf hypr/hyprpaper.conf 2>/dev/null || true
+
+    cp ~/.config/waybar/config-main.jsonc waybar/config-main.jsonc
+    cp ~/.config/waybar/config-secondary.jsonc waybar/config-secondary.jsonc
+    cp ~/.config/waybar/style.css waybar/style.css
+    cp ~/.config/waybar/power_menu.xml waybar/power_menu.xml 2>/dev/null || true
+    cp -r ~/.config/waybar/scripts/. waybar/scripts/ 2>/dev/null || true
+
+    cp -r ~/.config/rofi/. rofi/ 2>/dev/null || true
+    cp -r ~/.config/kitty/. kitty/ 2>/dev/null || true
+    cp -r ~/.config/mako/. mako/ 2>/dev/null || true
+    cp -r ~/.config/eww/. eww/ 2>/dev/null || true
+
+    cp ~/.scripts/*.sh scripts/ 2>/dev/null || true
+
+    find scripts waybar/scripts -type f -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
+
+    git add -A
+    git status
+    git diff --cached --stat
+
+Commit and push:
+
+    git commit -m "Sync current Hyprland setup"
+    git push
+
+============================================================
+25. Basic Git workflow
+============================================================
+
+Check changed files:
+
+    git status
+
+Add all changes:
+
+    git add -A
+
+Commit:
+
+    git commit -m "Update Hyprland dotfiles"
+
+Push:
+
+    git push
+
+============================================================
+Notes
+============================================================
+
+This setup is personal and machine-specific.
+
+Before installing on a new system, always check monitor names:
+
+    hyprctl monitors
+
+Primary files to edit for a different monitor layout:
+
+    hypr/hyprland.lua
+    waybar/config-main.jsonc
+    waybar/config-secondary.jsonc
+    scripts/switch_workspace_by_monitor.sh
+    scripts/move_window_to_workspace_by_monitor.sh
+    waybar/scripts/ws_button.sh
+```
 # Hyprland Dotfiles — Zero Install Guide
 
 This repository contains my personal Hyprland desktop setup for an Arch/CachyOS/EndeavourOS-style Linux system.
