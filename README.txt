@@ -1,5 +1,4 @@
-```text
-# Hyprland Dotfiles — Simple Zero Install Guide
+# Hyprland Dotfiles 
 
 This repo contains my personal Hyprland setup for Arch/CachyOS/EndeavourOS.
 
