@@ -355,6 +355,7 @@ hl.bind("SUPER + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + R", hl.dsp.exec_cmd(menu))
 hl.bind("SUPER + P", hl.dsp.window.pseudo({ action = "toggle" }))
 hl.bind("SUPER + J", hl.dsp.layout("togglesplit"))
+hl.bind("SUPER + G", hl.dsp.exec_cmd("firefox https://chatgpt.com"))
 
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({
   mode = "fullscreen",

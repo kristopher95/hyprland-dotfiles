@@ -15,6 +15,7 @@ SUPER + E                         Open file manager
 SUPER + B                         Open Firefox
 SUPER + R                         Open app launcher
 SUPER + L                         Lock screen
+SUPER + G                         Open ChatGPT
 
 SUPER + F                         Toggle fullscreen
 SUPER + V                         Toggle floating
