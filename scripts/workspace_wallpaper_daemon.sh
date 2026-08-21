@@ -1,23 +1,33 @@
 #!/usr/bin/env bash
 
-mkdir -p "$HOME/.cache/awww"
+# Only one copy of this daemon may run.
+lock="${XDG_RUNTIME_DIR:-/tmp}/workspace_wallpaper_daemon.lock"
+exec 9>"$lock"
 
-# Start awww daemon quietly if needed.
-if ! pgrep -x awww-daemon >/dev/null; then
-    awww-daemon >/tmp/awww-daemon.log 2>&1 &
-    sleep 1
+if ! flock -n 9; then
+    exit 0
 fi
 
-# Set wallpaper immediately on login/start.
-~/.scripts/set_workspace_wallpaper.sh >/dev/null 2>&1
+apply_wallpapers() {
+    "$HOME/.scripts/set_workspace_wallpaper.sh" >/dev/null 2>&1
+}
+
+# Apply the correct wallpapers immediately.
+apply_wallpapers
 
 socket="$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
 
-# Listen for Hyprland workspace changes.
-socat -U - UNIX-CONNECT:"$socket" | while read -r event; do
-    case "$event" in
-        workspace*|focusedmon*)
-            ~/.scripts/set_workspace_wallpaper.sh >/dev/null 2>&1
-            ;;
-    esac
+# Reconnect automatically if the Hyprland event socket is interrupted.
+while true; do
+    if [[ -S "$socket" ]]; then
+        socat -U - UNIX-CONNECT:"$socket" | while IFS= read -r event; do
+            case "$event" in
+                workspace*|focusedmon*|monitoradded*|monitorremoved*)
+                    apply_wallpapers
+                    ;;
+            esac
+        done
+    fi
+
+    sleep 1
 done
