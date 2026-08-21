@@ -1,51 +1,61 @@
 #!/usr/bin/env bash
 
 wp_dir="$HOME/Pictures/wallpapers/planets"
-cache_dir="/tmp/workspace_wallpaper_cache"
-mkdir -p "$cache_dir"
 
-cursor_pos="$(hyprctl cursorpos)"
-cursor_x="${cursor_pos%%,*}"
-
-# Monitor layout:
-# DP-1 = 2560x1440 at x=0
-# DP-3 = 3440x1440 at x=2560
-
-if (( cursor_x < 2560 )); then
-    monitor="DP-1"
-else
-    monitor="DP-3"
+# Make sure Hyprpaper exists.
+if ! pgrep -x hyprpaper >/dev/null; then
+    hyprpaper >/tmp/hyprpaper.log 2>&1 &
 fi
 
-workspace="$(
-    hyprctl monitors -j |
-    jq -r --arg mon "$monitor" '.[] | select(.name == $mon) | .activeWorkspace.id'
-)"
+# Wait briefly for Hyprpaper IPC to become available.
+for _ in {1..30}; do
+    if hyprctl hyprpaper listactive >/dev/null 2>&1; then
+        break
+    fi
+    sleep 0.1
+done
 
-case "$workspace" in
-    1|11) wallpaper="$wp_dir/1-mercury.png" ;;
-    2|12) wallpaper="$wp_dir/2-venus.png" ;;
-    3|13) wallpaper="$wp_dir/3-earth.png" ;;
-    4|14) wallpaper="$wp_dir/4-mars.png" ;;
-    5|15) wallpaper="$wp_dir/5-jupiter.png" ;;
-    6|16) wallpaper="$wp_dir/6-saturn.png" ;;
-    7|17) wallpaper="$wp_dir/7-uranus.png" ;;
-    8|18) wallpaper="$wp_dir/8-neptune.png" ;;
-    *) wallpaper="$wp_dir/3-earth.png" ;;
-esac
-
-if [[ ! -f "$wallpaper" ]]; then
-    notify-send "Wallpaper missing" "$wallpaper" 2>/dev/null
+if ! hyprctl hyprpaper listactive >/dev/null 2>&1; then
     exit 1
 fi
 
-cache_file="$cache_dir/$monitor"
+monitors_json="$(hyprctl monitors -j)" || exit 1
+active_wallpapers="$(hyprctl hyprpaper listactive 2>/dev/null || true)"
 
-if [[ -f "$cache_file" ]] && [[ "$(cat "$cache_file")" == "$wallpaper" ]]; then
-    exit 0
-fi
+for monitor in DP-1 DP-3; do
+    workspace="$(
+        jq -r --arg mon "$monitor" \
+        '.[] | select(.name == $mon) | .activeWorkspace.id' \
+        <<< "$monitors_json"
+    )"
 
-echo "$wallpaper" > "$cache_file"
+    if [[ -z "$workspace" || "$workspace" == "null" ]]; then
+        continue
+    fi
 
-# Apply wallpaper only to the monitor under the mouse.
-awww img "$wallpaper" --outputs "$monitor" --transition-type none >/dev/null 2>&1
+    case "$workspace" in
+        1|11) wallpaper="$wp_dir/1-mercury.png" ;;
+        2|12) wallpaper="$wp_dir/2-venus.png" ;;
+        3|13) wallpaper="$wp_dir/3-earth.png" ;;
+        4|14) wallpaper="$wp_dir/4-mars.png" ;;
+        5|15) wallpaper="$wp_dir/5-jupiter.png" ;;
+        6|16) wallpaper="$wp_dir/6-saturn.png" ;;
+        7|17) wallpaper="$wp_dir/7-uranus.png" ;;
+        8|18) wallpaper="$wp_dir/8-neptune.png" ;;
+        *) continue ;;
+    esac
+
+    [[ -f "$wallpaper" ]] || continue
+
+    current="$(
+        awk -F": " -v mon="$monitor" \
+            '$1 == mon { print $2 }' \
+            <<< "$active_wallpapers"
+    )"
+
+    if [[ "$current" != "$wallpaper" ]]; then
+        hyprctl hyprpaper wallpaper \
+            "$monitor, $wallpaper, cover" \
+            >/dev/null 2>&1
+    fi
+done
